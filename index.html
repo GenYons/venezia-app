@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مذكرة Venezia Ice الذكية للنادل</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,700&family=Tajawal:wght@400;500;700;800&display=swap');
+
+        :root {
+            --primary-color: #6b1124;
+            --accent-gold: #d4af37;
+            --bg-color: #f4f6f9;
+            --card-bg: #ffffff;
+            --text-color: #2b2b2b;
+            --success-color: #28a745;
+            --warning-color: #ff9800;
+            --danger-color: #dc3545;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 12px;
+            direction: rtl;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding-bottom: 90px;
+        }
+
+        header {
+            text-align: center;
+            background: linear-gradient(135deg, #4a0b18 0%, #7b1e32 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 14px;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 10px rgba(107, 17, 36, 0.2);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .brand-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+        }
+
+        .header-subtitle {
+            font-size: 0.82rem;
+            opacity: 0.9;
+            margin-top: 4px;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 10px;
+            background-color: #ffffff;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.88rem;
+            color: #475569;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .nav-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .badge-count {
+            background-color: var(--accent-gold);
+            color: #1e293b;
+            border-radius: 10px;
+            padding: 2px 6px;
+            font-size: 0.75rem;
+        }
+
+        .table-selector {
+            background: white;
+            padding: 10px 14px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-right: 4px solid var(--accent-gold);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+        }
+
+        .table-selector select {
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+            font-weight: 700;
+            font-size: 0.95rem;
+            background: #f8fafc;
+        }
+
+        .category-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            margin-bottom: 8px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+
+        .category-btn {
+            width: 100%;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 14px;
+            font-size: 0.92rem;
+            font-weight: 700;
+            border: none;
+            text-align: right;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .category-content {
+            display: none;
+            padding: 8px 10px;
+            background-color: #fafbfc;
+        }
+
+        .category-content.open { display: block; }
+
+        .menu-item {
+            background-color: white;
+            border-radius: 8px;
+            padding: 8px 10px;
+            margin-bottom: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-right: 3px solid var(--accent-gold);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+        }
+
+        .item-name { font-weight: 700; font-size: 0.88rem; }
+        .item-price { color: #64748b; font-size: 0.8rem; }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-qty {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            font-weight: 800;
+            font-size: 1.1rem;
+            cursor: pointer;
+        }
+
+        .order-card {
+            background: white;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            border-right: 5px solid var(--warning-color);
+        }
+
+        .order-card.served { border-right-color: var(--success-color); }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 800;
+            border-bottom: 1px dashed #e2e8f0;
+            padding-bottom: 6px;
+            margin-bottom: 6px;
+        }
+
+        .order-items-list { margin: 6px 0; padding-right: 16px; font-size: 0.85rem; }
+
+        .cart-bar {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            background-color: white;
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 600px;
+            margin: 0 auto;
+            border-top: 2px solid var(--accent-gold);
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.08);
+            border-top-left-radius: 14px;
+            border-top-right-radius: 14px;
+        }
+
+        .btn-submit {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .btn-clear-shift {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            width: 100%;
+            margin-top: 15px;
+            cursor: pointer;
+        }
+
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="brand-logo">Venezia Ice</div>
+        <div class="header-subtitle">مذكرة النادل الذكية لتسجيل الطلبيات</div>
+    </header>
+
+    <div class="nav-tabs">
+        <button class="nav-btn active" id="tab-menu-btn" onclick="switchTab('menu')">تسجيل طلب 📝</button>
+        <button class="nav-btn" id="tab-orders-btn" onclick="switchTab('orders')">
+            طاولاتي الحالية 📋 <span class="badge-count" id="pending-count">0</span>
+        </button>
+        <button class="nav-btn" id="tab-summary-btn" onclick="switchTab('summary')">وردية اليوم 📊</button>
+    </div>
+
+    <div class="table-selector" id="table-selector-box">
+        <label><strong>اختر الطاولة:</strong></label>
+        <select id="table-select">
+            <option value="1">طاولة 1</option>
+            <option value="2">طاولة 2</option>
+            <option value="3">طاولة 3</option>
+            <option value="4">طاولة 4</option>
+            <option value="5">طاولة 5</option>
+            <option value="6">طاولة 6</option>
+            <option value="7">طاولة 7</option>
+            <option value="8">طاولة 8</option>
+        </select>
+    </div>
+
+    <!-- قائمة الطعام للأزرار السريعة -->
+    <div id="view-menu">
+        <div id="menu-container"></div>
+    </div>
+
+    <!-- عرض الطاولات المحفوظة -->
+    <div id="view-orders" class="hidden">
+        <div id="orders-container"></div>
+    </div>
+
+    <!-- ملخص الوردية اليومية -->
+    <div id="view-summary" class="hidden" style="background:white; padding:15px; border-radius:12px;">
+        <h3 style="margin-top:0; color:var(--primary-color);">📊 إحصائيات وردية اليوم الخاصة بك</h3>
+        <p>إجمالي الطاولات التي خدمتها: <strong id="summary-tables-count">0</strong></p>
+        <p>إجمالي المبيعات المسجلة: <strong id="summary-total-amount" style="color:var(--primary-color); font-size:1.2rem;">0</strong> DHS</p>
+        <button class="btn-clear-shift" onclick="clearShiftData()">🗑️ بدء وردية جديدة (تصفير المذكرة)</button>
+    </div>
+</div>
+
+<div class="cart-bar" id="cart-bar">
+    <div style="font-weight: 800;">المجموع: <span id="grand-total" style="color:var(--primary-color);">0</span> DHS</div>
+    <button class="btn-submit" onclick="saveOrder()">حفظ للطاولة 📥</button>
+</div>
+
+<script>
+    const menuData = [
+        {
+            category: "Petit Déjeuner & Brunch",
+            items: [
+                { id: 1, name: "L'Express", price: 49 },
+                { id: 2, name: "Le Français", price: 69 },
+                { id: 3, name: "Le Beldi", price: 89 },
+                { id: 4, name: "Le Healthy", price: 89 }
+            ]
+        },
+        {
+            category: "Nos Pizzas & Pâtes",
+            items: [
+                { id: 11, name: "Pizza Margherita", price: 65 },
+                { id: 12, name: "Pizza Italienne", price: 75 },
+                { id: 13, name: "Pâtes Bolognaise", price: 80 },
+                { id: 14, name: "Pâtes Alfredo", price: 85 }
+            ]
+        },
+        {
+            category: "Boissons Chaudes & Cafés",
+            items: [
+                { id: 51, name: "Thé à la menthe", price: 27 },
+                { id: 52, name: "Espresso", price: 27 },
+                { id: 54, name: "Ness Ness / Cortado", price: 32 },
+                { id: 55, name: "Café Crème / Cappuccino", price: 32 },
+                { id: 61, name: "Spanish Latte", price: 40 }
+            ]
+        },
+        {
+            category: "Jus, Smoothies & Glaces",
+            items: [
+                { id: 71, name: "Virgin Mojito", price: 60 },
+                { id: 77, name: "Jus d'Orange Frais", price: 35 },
+                { id: 83, name: "Milkshake Classique", price: 65 },
+                { id: 42, name: "Coupe de Glace Signature", price: 75 }
+            ]
+        }
+    ];
+
+    let cart = {};
+    // جلب البيانات المحفوظة سابقاً على هاتف النادل
+    let ordersHistory = JSON.parse(localStorage.getItem('waiter_orders')) || [];
+
+    function renderMenu() {
+        const container = document.getElementById('menu-container');
+        container.innerHTML = '';
+
+        menuData.forEach((cat, index) => {
+            const card = document.createElement('div');
+            card.className = 'category-card';
+
+            const btn = document.createElement('button');
+            btn.className = 'category-btn';
+            btn.innerHTML = `<span>${cat.category}</span> <span>▼</span>`;
+            btn.onclick = () => {
+                document.getElementById(`cat-content-${index}`).classList.toggle('open');
+            };
+
+            const content = document.createElement('div');
+            content.className = 'category-content';
+            content.id = `cat-content-${index}`;
+
+            cat.items.forEach(item => {
+                const itemEl = document.createElement('div');
+                itemEl.className = 'menu-item';
+                itemEl.innerHTML = `
+                    <div>
+                        <div class="item-name">${item.name}</div>
+                        <div class="item-price">${item.price} DHS</div>
+                    </div>
+                    <div class="quantity-controls">
+                        <button class="btn-qty" onclick="changeQty(${item.id}, -1)">-</button>
+                        <span id="qty-${item.id}" style="font-weight:700;">0</span>
+                        <button class="btn-qty" onclick="changeQty(${item.id}, 1)">+</button>
+                    </div>
+                `;
+                content.appendChild(itemEl);
+            });
+
+            card.appendChild(btn);
+            card.appendChild(content);
+            container.appendChild(card);
+        });
+    }
+
+    function changeQty(id, delta) {
+        if (!cart[id]) cart[id] = 0;
+        cart[id] += delta;
+        if (cart[id] <= 0) delete cart[id];
+        
+        document.getElementById(`qty-${id}`).innerText = cart[id] || 0;
+        updateTotal();
+    }
+
+    function updateTotal() {
+        let total = 0;
+        menuData.forEach(cat => {
+            cat.items.forEach(item => {
+                if (cart[item.id]) total += item.price * cart[item.id];
+            });
+        });
+        document.getElementById('grand-total').innerText = total;
+    }
+
+    function saveOrder() {
+        let selectedItems = [];
+        let total = 0;
+
+        menuData.forEach(cat => {
+            cat.items.forEach(item => {
+                if (cart[item.id] > 0) {
+                    const itemTotal = item.price * cart[item.id];
+                    selectedItems.push({ name: item.name, qty: cart[item.id], total: itemTotal });
+                    total += itemTotal;
+                }
+            });
+        });
+
+        if (selectedItems.length === 0) {
+            alert("اختر وجبة أو مشروباً أولاً!");
+            return;
+        }
+
+        const tableNum = document.getElementById('table-select').value;
+
+        const newOrder = {
+            id: Date.now(),
+            tableNum: tableNum,
+            items: selectedItems,
+            total: total,
+            status: 'pending',
+            timeStr: new Date().toLocaleTimeString('ar-MA', { hour: '2-digit', minute: '2-digit' })
+        };
+
+        ordersHistory.unshift(newOrder);
+        // حفظ في ذاكرة الهاتف
+        localStorage.setItem('waiter_orders', JSON.stringify(ordersHistory));
+
+        cart = {};
+        renderMenu();
+        updateTotal();
+        updateBadge();
+        alert(`تم تسجيل طلب الطاولة ${tableNum} بنجاح في مذكرتك!`);
+    }
+
+    function renderOrders() {
+        const container = document.getElementById('orders-container');
+        container.innerHTML = '';
+
+        if (ordersHistory.length === 0) {
+            container.innerHTML = '<p style="text-align:center; color:#94a3b8;">لا توجد طاولات مسجلة في مذكرتك اليوم.</p>';
+            return;
+        }
+
+        ordersHistory.forEach(order => {
+            const card = document.createElement('div');
+            card.className = `order-card ${order.status === 'served' ? 'served' : ''}`;
+
+            let itemsHtml = order.items.map(i => `<li>${i.name} × <strong>${i.qty}</strong></li>`).join('');
+
+            card.innerHTML = `
+                <div class="order-header">
+                    <span>طاولة رقم: ${order.tableNum}</span>
+                    <span style="font-size:0.8rem; color:#64748b;">${order.timeStr}</span>
+                </div>
+                <ul class="order-items-list">${itemsHtml}</ul>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
+                    <div>المجموع: <strong>${order.total} DHS</strong></div>
+                    <button onclick="toggleStatus(${order.id})" style="background:${order.status === 'served' ? '#64748b' : 'var(--success-color)'}; color:white; border:none; padding:6px 10px; border-radius:6px; font-weight:700; font-size:0.8rem;">
+                        ${order.status === 'served' ? 'إعادة لقيد الانتظار' : 'تم التسليم للزبون ✅'}
+                    </button>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    function toggleStatus(id) {
+        const order = ordersHistory.find(o => o.id === id);
+        if (order) {
+            order.status = order.status === 'pending' ? 'served' : 'pending';
+            localStorage.setItem('waiter_orders', JSON.stringify(ordersHistory));
+            renderOrders();
+            updateBadge();
+        }
+    }
+
+    function updateBadge() {
+        const pending = ordersHistory.filter(o => o.status === 'pending').length;
+        document.getElementById('pending-count').innerText = pending;
+    }
+
+    function renderSummary() {
+        const totalAmount = ordersHistory.reduce((sum, o) => sum + o.total, 0);
+        document.getElementById('summary-tables-count').innerText = ordersHistory.length;
+        document.getElementById('summary-total-amount').innerText = totalAmount;
+    }
+
+    function clearShiftData() {
+        if (confirm("هل أنت تأكد من تصفير ذاكرة اليوم لبدء وردية جديدة؟")) {
+            ordersHistory = [];
+            localStorage.removeItem('waiter_orders');
+            renderOrders();
+            renderSummary();
+            updateBadge();
+            alert("تم تصفير المذكرة بنجاح!");
+        }
+    }
+
+    function switchTab(tab) {
+        document.getElementById('view-menu').classList.add('hidden');
+        document.getElementById('view-orders').classList.add('hidden');
+        document.getElementById('view-summary').classList.add('hidden');
+        document.getElementById('cart-bar').classList.add('hidden');
+        document.getElementById('table-selector-box').classList.add('hidden');
+
+        document.getElementById('tab-menu-btn').classList.remove('active');
+        document.getElementById('tab-orders-btn').classList.remove('active');
+        document.getElementById('tab-summary-btn').classList.remove('active');
+
+        if (tab === 'menu') {
+            document.getElementById('view-menu').classList.remove('hidden');
+            document.getElementById('cart-bar').classList.remove('hidden');
+            document.getElementById('table-selector-box').classList.remove('hidden');
+            document.getElementById('tab-menu-btn').classList.add('active');
+        } else if (tab === 'orders') {
+            document.getElementById('view-orders').classList.remove('hidden');
+            document.getElementById('tab-orders-btn').classList.add('active');
+            renderOrders();
+        } else if (tab === 'summary') {
+            document.getElementById('view-summary').classList.remove('hidden');
+            document.getElementById('tab-summary-btn').classList.add('active');
+            renderSummary();
+        }
+    }
+
+    renderMenu();
+    updateBadge();
+</script>
+
+</body>
+  </html>
