@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مذكرة Venezia Ice الذكية للنادل</title>
+    <title>Venezia Ice - نظام إدارة الطلبات والنوادل</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,700&family=Tajawal:wght@400;500;700;800&display=swap');
 
         :root {
             --primary-color: #6b1124;
+            --primary-hover: #4a0b18;
             --accent-gold: #d4af37;
+            --gold-hover: #b59226;
             --bg-color: #f4f6f9;
             --card-bg: #ffffff;
             --text-color: #2b2b2b;
@@ -19,7 +21,7 @@
         }
 
         body {
-            font-family: 'Tajawal', sans-serif;
+            font-family: 'Tajawal', 'Segoe UI', Tahoma, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
@@ -28,35 +30,98 @@
         }
 
         .container {
-            max-width: 600px;
+            max-width: 650px;
             margin: 0 auto;
-            padding-bottom: 90px;
+            padding-bottom: 110px;
         }
 
+        /* شريط الأخبار التنبيهي في الأعلى */
+        .news-ticker-bar {
+            background: linear-gradient(90deg, #dc3545 0%, #b02a37 100%);
+            color: white;
+            padding: 10px 14px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            animation: ticker-pulse 2s infinite alternate;
+        }
+
+        @keyframes ticker-pulse {
+            0% { box-shadow: 0 0 5px rgba(220, 53, 69, 0.4); transform: scale(1); }
+            100% { box-shadow: 0 0 15px rgba(220, 53, 69, 0.8); transform: scale(1.01); }
+        }
+
+        .ticker-content {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .ticker-btn-go {
+            background-color: white;
+            color: var(--danger-color);
+            border: none;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        /* الشعار الرئيسي */
         header {
             text-align: center;
-            background: linear-gradient(135deg, #4a0b18 0%, #7b1e32 100%);
+            background: linear-gradient(135deg, #4a0b18 0%, #7b1e32 50%, #30050f 100%);
             color: white;
-            padding: 15px;
-            border-radius: 14px;
-            margin-bottom: 12px;
-            box-shadow: 0 4px 10px rgba(107, 17, 36, 0.2);
+            padding: 20px 15px 16px;
+            border-radius: 16px;
+            margin-bottom: 15px;
+            box-shadow: 0 6px 15px rgba(107, 17, 36, 0.25);
+            position: relative;
             border: 1px solid rgba(212, 175, 55, 0.3);
         }
 
         .brand-logo {
             font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
+            font-size: 2.2rem;
             font-weight: 700;
-            color: var(--accent-gold);
+            font-style: italic;
+            letter-spacing: 2px;
+            background: linear-gradient(45deg, #fff6d9, var(--accent-gold), #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
+            margin: 0;
+            line-height: 1.1;
         }
 
-        .header-subtitle {
+        .brand-subtitle {
             font-size: 0.82rem;
-            opacity: 0.9;
+            color: var(--accent-gold);
+            letter-spacing: 3px;
+            text-transform: uppercase;
             margin-top: 4px;
+            font-weight: 500;
         }
 
+        .header-title {
+            margin: 10px 0 0;
+            font-size: 0.92rem;
+            opacity: 0.9;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            padding-top: 8px;
+        }
+
+        /* التنقل بين الصفحات */
         .nav-tabs {
             display: flex;
             gap: 8px;
@@ -65,14 +130,15 @@
 
         .nav-btn {
             flex: 1;
-            padding: 10px;
+            padding: 10px 12px;
             background-color: #ffffff;
-            border: 1.5px solid #cbd5e1;
+            border: 1.5px solid #e2e8f0;
             border-radius: 10px;
             font-weight: 700;
-            font-size: 0.88rem;
-            color: #475569;
+            font-size: 0.9rem;
+            color: #555;
             cursor: pointer;
+            transition: all 0.25s ease;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -83,42 +149,61 @@
             background-color: var(--primary-color);
             color: white;
             border-color: var(--primary-color);
+            box-shadow: 0 3px 8px rgba(107, 17, 36, 0.2);
         }
 
         .badge-count {
             background-color: var(--accent-gold);
-            color: #1e293b;
-            border-radius: 10px;
-            padding: 2px 6px;
+            color: #333;
+            border-radius: 12px;
+            padding: 2px 7px;
             font-size: 0.75rem;
+            font-weight: 800;
         }
 
-        .table-selector {
+        /* لوحة تحديد النادل والطاولة */
+        .control-panel {
             background: white;
-            padding: 10px 14px;
-            border-radius: 10px;
-            margin-bottom: 12px;
+            padding: 12px 15px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
             display: flex;
-            align-items: center;
-            justify-content: space-between;
+            gap: 10px;
             border-right: 4px solid var(--accent-gold);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.03);
         }
 
-        .table-selector select {
-            padding: 6px 12px;
+        .select-group {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .select-group label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #555;
+        }
+
+        .select-group select {
+            padding: 8px 10px;
             border-radius: 8px;
             border: 1px solid #cbd5e1;
-            font-weight: 700;
-            font-size: 0.95rem;
-            background: #f8fafc;
+            font-size: 0.88rem;
+            font-family: inherit;
+            outline: none;
+            background-color: #f8fafc;
+            font-weight: 600;
         }
 
+        /* أقسام المنيو القابلة للطي */
         .category-card {
             background-color: var(--card-bg);
-            border-radius: 10px;
-            margin-bottom: 8px;
+            border-radius: 12px;
+            margin-bottom: 10px;
             overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.04);
             border: 1px solid #e2e8f0;
         }
 
@@ -126,116 +211,233 @@
             width: 100%;
             background-color: var(--primary-color);
             color: white;
-            padding: 12px 14px;
-            font-size: 0.92rem;
+            padding: 13px 16px;
+            font-size: 0.98rem;
             font-weight: 700;
             border: none;
             text-align: right;
             cursor: pointer;
             display: flex;
             justify-content: space-between;
+            align-items: center;
         }
 
         .category-content {
             display: none;
-            padding: 8px 10px;
+            padding: 10px 12px;
             background-color: #fafbfc;
         }
 
         .category-content.open { display: block; }
 
         .menu-item {
-            background-color: white;
+            background-color: var(--card-bg);
             border-radius: 8px;
-            padding: 8px 10px;
-            margin-bottom: 6px;
+            padding: 10px 12px;
+            margin-bottom: 8px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
             border-right: 3px solid var(--accent-gold);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+            direction: ltr;
         }
 
-        .item-name { font-weight: 700; font-size: 0.88rem; }
-        .item-price { color: #64748b; font-size: 0.8rem; }
+        .item-info { text-align: left; flex-grow: 1; }
+        .item-name { font-weight: 700; font-size: 0.92rem; color: #1e293b; }
+        .item-price { color: #64748b; font-size: 0.82rem; margin-top: 2px; }
 
         .quantity-controls {
             display: flex;
             align-items: center;
             gap: 8px;
+            margin-right: 12px;
         }
 
         .btn-qty {
             background-color: var(--primary-color);
             color: white;
             border: none;
-            width: 30px;
-            height: 30px;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
-            font-weight: 800;
-            font-size: 1.1rem;
+            font-weight: 700;
+            font-size: 1rem;
             cursor: pointer;
         }
 
+        /* بطاقات الذاكرة */
         .order-card {
             background: white;
-            border-radius: 10px;
-            padding: 12px;
-            margin-bottom: 10px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-            border-right: 5px solid var(--warning-color);
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 12px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.06);
+            border-right: 6px solid var(--warning-color);
+            transition: all 0.25s ease;
+            position: relative;
         }
 
-        .order-card.served { border-right-color: var(--success-color); }
+        .order-card.served {
+            border-right-color: var(--success-color);
+            background-color: #fbfdfb;
+        }
+
+        .order-card.delayed {
+            border-right-color: var(--danger-color);
+            background-color: #fff5f5;
+        }
 
         .order-header {
             display: flex;
             justify-content: space-between;
-            font-weight: 800;
+            align-items: center;
             border-bottom: 1px dashed #e2e8f0;
-            padding-bottom: 6px;
-            margin-bottom: 6px;
+            padding-bottom: 8px;
+            margin-bottom: 8px;
         }
 
-        .order-items-list { margin: 6px 0; padding-right: 16px; font-size: 0.85rem; }
+        .order-title { font-weight: 800; font-size: 0.98rem; color: var(--primary-color); }
 
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+
+        .status-pending { background-color: #fff7ed; color: #c2410c; }
+        .status-delayed { background-color: #f8d7da; color: #721c24; font-weight: 800; }
+        .status-served { background-color: #f0fdf4; color: #15803d; }
+
+        .time-timer {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #d97706;
+            margin-top: 2px;
+        }
+
+        .time-timer.danger { color: var(--danger-color); }
+
+        .order-details { font-size: 0.82rem; color: #64748b; margin-bottom: 8px; }
+        .order-items-list { margin: 8px 0; padding-right: 18px; font-size: 0.88rem; color: #334155; }
+
+        .order-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            padding-top: 8px;
+            border-top: 1px solid #f1f5f9;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .btn-toggle-status {
+            padding: 6px 14px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.82rem;
+            cursor: pointer;
+        }
+
+        .btn-toggle-status.serve { background-color: var(--success-color); color: white; }
+        .btn-toggle-status.undo { background-color: #64748b; color: white; }
+
+        .btn-apology {
+            background-color: var(--danger-color);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* نافذة الاعتذار Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.65);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 14px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .apology-box {
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            border-right: 4px solid var(--primary-color);
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .apology-box:hover { background: #f1f5f9; }
+        .apology-box h5 { margin: 0 0 5px 0; color: var(--primary-color); font-size: 0.95rem; }
+        .apology-box p { margin: 0; font-size: 0.88rem; color: #334155; line-height: 1.4; }
+
+        .close-btn {
+            background-color: #64748b;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            width: 100%;
+            margin-top: 15px;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        /* الشريط السفلي للحفظ والمجموع */
         .cart-bar {
             position: fixed;
             bottom: 0; left: 0; right: 0;
             background-color: white;
-            padding: 12px 16px;
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.1);
+            padding: 12px 18px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            max-width: 600px;
+            max-width: 650px;
             margin: 0 auto;
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+            z-index: 100;
             border-top: 2px solid var(--accent-gold);
-            box-shadow: 0 -4px 10px rgba(0,0,0,0.08);
-            border-top-left-radius: 14px;
-            border-top-right-radius: 14px;
         }
+
+        .total-price { font-size: 1.05rem; font-weight: 800; }
+        .total-price span { color: var(--primary-color); }
 
         .btn-submit {
             background-color: var(--primary-color);
             color: white;
             border: none;
-            padding: 10px 16px;
+            padding: 10px 18px;
             border-radius: 8px;
             font-weight: 700;
             cursor: pointer;
-        }
-
-        .btn-clear-shift {
-            background-color: #dc3545;
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 8px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            width: 100%;
-            margin-top: 15px;
-            cursor: pointer;
+            font-size: 0.9rem;
         }
 
         .hidden { display: none !important; }
@@ -244,101 +446,258 @@
 <body>
 
 <div class="container">
+    <!-- شريط تنبيه الطلبات المتأخرة -->
+    <div id="top-news-ticker" class="news-ticker-bar hidden" onclick="goDelayedOrders()">
+        <div class="ticker-content">
+            <span>🚨</span>
+            <span class="ticker-text" id="ticker-msg">تنبيه هام: توجد طلبيات متأخرة لأكثر من 5 دقائق!</span>
+        </div>
+        <button class="ticker-btn-go">عرض الطلبيات 👈</button>
+    </div>
+
     <header>
         <div class="brand-logo">Venezia Ice</div>
-        <div class="header-subtitle">مذكرة النادل الذكية لتسجيل الطلبيات</div>
+        <div class="brand-subtitle">Café & Gelateria</div>
+        <p class="header-title">نظام الطلبيات وذاكرة النوادل الذكية</p>
     </header>
 
     <div class="nav-tabs">
-        <button class="nav-btn active" id="tab-menu-btn" onclick="switchTab('menu')">تسجيل طلب 📝</button>
-        <button class="nav-btn" id="tab-orders-btn" onclick="switchTab('orders')">
-            طاولاتي الحالية 📋 <span class="badge-count" id="pending-count">0</span>
+        <button class="nav-btn active" id="tab-menu-btn" onclick="switchTab('menu')">
+            <span>تسجيل طلب جديد 📝</span>
         </button>
-        <button class="nav-btn" id="tab-summary-btn" onclick="switchTab('summary')">وردية اليوم 📊</button>
+        <button class="nav-btn" id="tab-orders-btn" onclick="switchTab('orders')">
+            <span>ذاكرة الطلبيات 📋</span>
+            <span class="badge-count" id="pending-count">0</span>
+        </button>
     </div>
 
-    <div class="table-selector" id="table-selector-box">
-        <label><strong>اختر الطاولة:</strong></label>
-        <select id="table-select">
-            <option value="1">طاولة 1</option>
-            <option value="2">طاولة 2</option>
-            <option value="3">طاولة 3</option>
-            <option value="4">طاولة 4</option>
-            <option value="5">طاولة 5</option>
-            <option value="6">طاولة 6</option>
-            <option value="7">طاولة 7</option>
-            <option value="8">طاولة 8</option>
-        </select>
+    <div class="control-panel">
+        <div class="select-group">
+            <label>اسم النادل:</label>
+            <select id="waiter-select" onchange="onWaiterChange()">
+                <option value="1">النادل 1 (القاعات 1, 2, 3)</option>
+                <option value="2">النادل 2 (القاعات 4, 5, 6)</option>
+                <option value="3">النادل الرئيسي (جميع القاعات)</option>
+            </select>
+        </div>
+        <div class="select-group">
+            <label>رقم القاعة / الطاولة:</label>
+            <select id="table-select"></select>
+        </div>
     </div>
 
-    <!-- قائمة الطعام للأزرار السريعة -->
     <div id="view-menu">
         <div id="menu-container"></div>
     </div>
 
-    <!-- عرض الطاولات المحفوظة -->
     <div id="view-orders" class="hidden">
+        <div style="margin-bottom: 12px; display: flex; gap: 6px; flex-wrap: wrap;">
+            <button onclick="filterOrders('all')" class="nav-btn" style="padding:6px 10px; font-size:0.8rem;">الكل</button>
+            <button onclick="filterOrders('pending')" class="nav-btn" style="padding:6px 10px; font-size:0.8rem; background-color:#fff7ed; color:#c2410c;">لم يلبى ⏳</button>
+            <button onclick="filterOrders('delayed')" class="nav-btn" style="padding:6px 10px; font-size:0.8rem; background-color:#f8d7da; color:#721c24;">متأخر (+5 دقائق) ⚠️</button>
+            <button onclick="filterOrders('served')" class="nav-btn" style="padding:6px 10px; font-size:0.8rem; background-color:#f0fdf4; color:#15803d;">تم التلبية ✅</button>
+        </div>
         <div id="orders-container"></div>
-    </div>
-
-    <!-- ملخص الوردية اليومية -->
-    <div id="view-summary" class="hidden" style="background:white; padding:15px; border-radius:12px;">
-        <h3 style="margin-top:0; color:var(--primary-color);">📊 إحصائيات وردية اليوم الخاصة بك</h3>
-        <p>إجمالي الطاولات التي خدمتها: <strong id="summary-tables-count">0</strong></p>
-        <p>إجمالي المبيعات المسجلة: <strong id="summary-total-amount" style="color:var(--primary-color); font-size:1.2rem;">0</strong> DHS</p>
-        <button class="btn-clear-shift" onclick="clearShiftData()">🗑️ بدء وردية جديدة (تصفير المذكرة)</button>
     </div>
 </div>
 
 <div class="cart-bar" id="cart-bar">
-    <div style="font-weight: 800;">المجموع: <span id="grand-total" style="color:var(--primary-color);">0</span> DHS</div>
-    <button class="btn-submit" onclick="saveOrder()">حفظ للطاولة 📥</button>
+    <div class="total-price">المجموع: <span id="grand-total">0</span> DHS</div>
+    <button class="btn-submit" onclick="saveOrder()">حفظ الطلب في الذاكرة 📥</button>
+</div>
+
+<!-- نافذة رسائل الاعتذار -->
+<div id="apology-modal" class="modal">
+    <div class="modal-content">
+        <h3 style="margin-top:0; color:var(--danger-color); text-align:center;">⚠️ تنبيه تأخير الطلب (+5 دقائق)</h3>
+        <p id="apology-modal-info" style="font-size:0.85rem; text-align:center; color:#666; margin-bottom:15px;"></p>
+        
+        <strong style="font-size:0.9rem; color:#333;">اختر العبارة المناسبة لمخاطبة الزبون:</strong>
+        
+        <div class="apology-box" onclick="alert('تم اختيار نموذج الاعتذار الراقي.')">
+            <h5>🙏 1. اعتذار عام بأسلوب راقٍ:</h5>
+            <p>"نعتذر منك سيد/ة على هذا التأخير البسيط، طلبكم قيد التحضير بتركيز وعناية وسيصلكم في لحظات معدودة."</p>
+        </div>
+
+        <div class="apology-box" style="border-right-color: var(--warning-color);" onclick="alert('تم اختيار نموذج توضيح المطبخ.')">
+            <h5>🍳 2. توضيح سبب الضغط في المطبخ:</h5>
+            <p>"نعتذر شديد الاعتذار، يوجد ضغط إقبال كبير في قسم المطبخ/التحضير حالياً، والطاقم يعمل بجهد على طلبكم لضمان جودته."</p>
+        </div>
+
+        <button class="close-btn" onclick="closeApologyModal()">إغلاق النافذة</button>
+    </div>
 </div>
 
 <script>
+    const waitersData = {
+        1: { name: "النادل 1", tables: [1, 2, 3] },
+        2: { name: "النادل 2", tables: [4, 5, 6] },
+        3: { name: "النادل الرئيسي", tables: [1, 2, 3, 4, 5, 6] }
+    };
+
     const menuData = [
         {
-            category: "Petit Déjeuner & Brunch",
+            category: "Nos Petits Déjeuners & Brunchs",
             items: [
                 { id: 1, name: "L'Express", price: 49 },
                 { id: 2, name: "Le Français", price: 69 },
-                { id: 3, name: "Le Beldi", price: 89 },
-                { id: 4, name: "Le Healthy", price: 89 }
+                { id: 3, name: "Le Gourmand", price: 79 },
+                { id: 4, name: "Le Beldi", price: 89 },
+                { id: 5, name: "L'Anglais", price: 89 },
+                { id: 6, name: "L'Espagnol", price: 69 },
+                { id: 7, name: "Le Healthy", price: 89 },
+                { id: 8, name: "Venezia Kids Breakfast", price: 59 },
+                { id: 9, name: "Le Bien-être (Brunch)", price: 119 },
+                { id: 10, name: "Le Duo Signature (Brunch)", price: 159 }
             ]
         },
         {
-            category: "Nos Pizzas & Pâtes",
+            category: "Nos Pizzas",
             items: [
-                { id: 11, name: "Pizza Margherita", price: 65 },
-                { id: 12, name: "Pizza Italienne", price: 75 },
-                { id: 13, name: "Pâtes Bolognaise", price: 80 },
-                { id: 14, name: "Pâtes Alfredo", price: 85 }
+                { id: 11, name: "Margherita", price: 65 },
+                { id: 12, name: "Italienne", price: 75 },
+                { id: 13, name: "Al Tonno", price: 75 },
+                { id: 14, name: "Bismarck", price: 85 },
+                { id: 15, name: "Con Pollo & Funghi", price: 85 },
+                { id: 16, name: "Frutti Di Mare", price: 95 },
+                { id: 17, name: "Venezia Kids Pizza", price: 60 }
             ]
         },
         {
-            category: "Boissons Chaudes & Cafés",
+            category: "Coin Italien - Nos Pâtes",
             items: [
-                { id: 51, name: "Thé à la menthe", price: 27 },
-                { id: 52, name: "Espresso", price: 27 },
-                { id: 54, name: "Ness Ness / Cortado", price: 32 },
+                { id: 18, name: "Pâtes Bolognaise", price: 80 },
+                { id: 19, name: "Pâtes Alfredo", price: 85 },
+                { id: 20, name: "Pâtes Frutti Di Mare", price: 95 }
+            ]
+        },
+        {
+            category: "Sur Le Pouce (Salades & Paninis)",
+            items: [
+                { id: 21, name: "Salade Niçoise", price: 65 },
+                { id: 22, name: "Salade César", price: 85 },
+                { id: 23, name: "Salade Quinoa", price: 85 },
+                { id: 24, name: "Panini Trois Fromages / Thon / Poulet / Viande hachée", price: 70 }
+            ]
+        },
+        {
+            category: "Nos Sandwichs & Burgers",
+            items: [
+                { id: 25, name: "Sandwich Marocain au choix", price: 75 },
+                { id: 26, name: "Sandwich Campagnard", price: 75 },
+                { id: 27, name: "Sandwich Tuna Fraîcheur", price: 75 },
+                { id: 28, name: "Croque Monsieur", price: 65 },
+                { id: 29, name: "Club Sandwich Poulet", price: 75 },
+                { id: 30, name: "Burger Gourmet", price: 95 },
+                { id: 31, name: "Burger Crispy Chicken", price: 95 },
+                { id: 32, name: "Burger Suprême", price: 115 },
+                { id: 33, name: "Menu Midi (Sandwich + Soda)", price: 85 }
+            ]
+        },
+        {
+            category: "Nos Crêpes & Gourmandises",
+            items: [
+                { id: 34, name: "Crêpe Nutella", price: 55 },
+                { id: 35, name: "Crêpe Nutella Banane", price: 65 },
+                { id: 36, name: "Crêpe Ferrero", price: 75 },
+                { id: 37, name: "Crêpe Pistache", price: 85 },
+                { id: 38, name: "Crêpe 3 Fromages", price: 60 },
+                { id: 39, name: "Crêpe Parisienne", price: 65 },
+                { id: 40, name: "Crêpe Forestière", price: 75 },
+                { id: 41, name: "Crêpe Scandinave", price: 85 }
+            ]
+        },
+        {
+            category: "Nos Coupes Signatures & Glaces",
+            items: [
+                { id: 42, name: "Coupe Florence", price: 75 },
+                { id: 43, name: "Coupe Roma", price: 75 },
+                { id: 44, name: "Coupe Milano", price: 75 },
+                { id: 45, name: "Coupe Capri", price: 75 },
+                { id: 46, name: "Coupe Portofino", price: 75 },
+                { id: 47, name: "Coupe Gran Venezia", price: 140 },
+                { id: 48, name: "Coupe Bambino", price: 45 },
+                { id: 49, name: "Coupe au choix", price: 50 },
+                { id: 50, name: "Une boule de glace au choix", price: 25 }
+            ]
+        },
+        {
+            category: "Nos Boissons Chaudes",
+            items: [
+                { id: 51, name: "Thé à la menthe / Verveine", price: 27 },
+                { id: 52, name: "Espresso / Allongé", price: 27 },
+                { id: 53, name: "Double Espresso", price: 37 },
+                { id: 54, name: "Cortado / Ness Ness", price: 32 },
                 { id: 55, name: "Café Crème / Cappuccino", price: 32 },
-                { id: 61, name: "Spanish Latte", price: 40 }
+                { id: 56, name: "Café Moka / Chocolat Chaud", price: 35 },
+                { id: 57, name: "Infusion au choix", price: 30 },
+                { id: 58, name: "Lait (Chaud ou Froid)", price: 25 },
+                { id: 59, name: "Café Aromatisé", price: 35 },
+                { id: 60, name: "Flat White", price: 40 },
+                { id: 61, name: "Spanish Latte", price: 40 },
+                { id: 62, name: "Caramel Macchiato", price: 40 },
+                { id: 63, name: "Affogato", price: 50 },
+                { id: 64, name: "Chocolat Chaud Venezia", price: 50 }
             ]
         },
         {
-            category: "Jus, Smoothies & Glaces",
+            category: "Nos Cafés Glacés",
             items: [
-                { id: 71, name: "Virgin Mojito", price: 60 },
-                { id: 77, name: "Jus d'Orange Frais", price: 35 },
+                { id: 65, name: "Iced Americano", price: 40 },
+                { id: 66, name: "Iced Latte", price: 40 },
+                { id: 67, name: "Iced Spanish Latte", price: 45 },
+                { id: 68, name: "Iced Caramel Macchiato", price: 45 },
+                { id: 69, name: "Iced Nutella Latte", price: 45 },
+                { id: 70, name: "Iced Pistachio Latte", price: 45 }
+            ]
+        },
+        {
+            category: "Nos Mocktails & Boissons Fraîches",
+            items: [
+                { id: 71, name: "Virgin Mojito Classic", price: 60 },
+                { id: 72, name: "Virgin Mojito Fruit de la Passion", price: 65 },
+                { id: 73, name: "Pina Colada", price: 65 },
+                { id: 74, name: "Dolce Vita", price: 65 },
+                { id: 75, name: "Hawaiï", price: 65 },
+                { id: 76, name: "Sunrise Tropical", price: 65 }
+            ]
+        },
+        {
+            category: "Nos Jus Frais, Milkshakes & Eaux",
+            items: [
+                { id: 77, name: "Jus Classique", price: 35 },
+                { id: 78, name: "Jus de fruits de saison", price: 50 },
+                { id: 79, name: "Jus Détox", price: 55 },
+                { id: 80, name: "Jus Tonic", price: 55 },
+                { id: 81, name: "Jus Énergétique", price: 65 },
+                { id: 82, name: "Jus Smoothie", price: 65 },
                 { id: 83, name: "Milkshake Classique", price: 65 },
-                { id: 42, name: "Coupe de Glace Signature", price: 75 }
+                { id: 84, name: "Espresso Shake", price: 69 },
+                { id: 85, name: "Oreo Shake", price: 69 },
+                { id: 86, name: "Milkshake Pistachio", price: 69 },
+                { id: 87, name: "Eau minérale / gazeuse 50cl", price: 20 },
+                { id: 88, name: "Sodas", price: 25 },
+                { id: 89, name: "Ice Tea", price: 25 }
             ]
         }
     ];
 
     let cart = {};
-    // جلب البيانات المحفوظة سابقاً على هاتف النادل
-    let ordersHistory = JSON.parse(localStorage.getItem('waiter_orders')) || [];
+    let ordersHistory = [];
+    let currentFilter = 'all';
+
+    function onWaiterChange() {
+        const waiterId = document.getElementById('waiter-select').value;
+        const tableSelect = document.getElementById('table-select');
+        tableSelect.innerHTML = '';
+        
+        waitersData[waiterId].tables.forEach(tableNum => {
+            const opt = document.createElement('option');
+            opt.value = tableNum;
+            opt.innerText = `القاعة / الطاولة ${tableNum}`;
+            tableSelect.appendChild(opt);
+        });
+    }
 
     function renderMenu() {
         const container = document.getElementById('menu-container');
@@ -352,7 +711,8 @@
             btn.className = 'category-btn';
             btn.innerHTML = `<span>${cat.category}</span> <span>▼</span>`;
             btn.onclick = () => {
-                document.getElementById(`cat-content-${index}`).classList.toggle('open');
+                const content = document.getElementById(`cat-content-${index}`);
+                content.classList.toggle('open');
             };
 
             const content = document.createElement('div');
@@ -363,13 +723,13 @@
                 const itemEl = document.createElement('div');
                 itemEl.className = 'menu-item';
                 itemEl.innerHTML = `
-                    <div>
+                    <div class="item-info">
                         <div class="item-name">${item.name}</div>
                         <div class="item-price">${item.price} DHS</div>
                     </div>
                     <div class="quantity-controls">
                         <button class="btn-qty" onclick="changeQty(${item.id}, -1)">-</button>
-                        <span id="qty-${item.id}" style="font-weight:700;">0</span>
+                        <span class="qty-count" id="qty-${item.id}">0</span>
                         <button class="btn-qty" onclick="changeQty(${item.id}, 1)">+</button>
                     </div>
                 `;
@@ -416,126 +776,178 @@
         });
 
         if (selectedItems.length === 0) {
-            alert("اختر وجبة أو مشروباً أولاً!");
+            alert("رجاءً اختر وجبة واحدة على الأقل قبل حفظ الطلب!");
             return;
         }
 
+        const waiterId = document.getElementById('waiter-select').value;
         const tableNum = document.getElementById('table-select').value;
 
         const newOrder = {
             id: Date.now(),
+            waiterName: waitersData[waiterId].name,
             tableNum: tableNum,
             items: selectedItems,
             total: total,
             status: 'pending',
+            createdAt: Date.now(),
             timeStr: new Date().toLocaleTimeString('ar-MA', { hour: '2-digit', minute: '2-digit' })
         };
 
         ordersHistory.unshift(newOrder);
-        // حفظ في ذاكرة الهاتف
-        localStorage.setItem('waiter_orders', JSON.stringify(ordersHistory));
 
         cart = {};
         renderMenu();
         updateTotal();
         updateBadge();
-        alert(`تم تسجيل طلب الطاولة ${tableNum} بنجاح في مذكرتك!`);
+        checkTimerAlerts();
     }
+
+    function checkTimerAlerts() {
+        const now = Date.now();
+        let delayedOrdersCount = 0;
+
+        ordersHistory.forEach(order => {
+            if (order.status === 'pending') {
+                const elapsedMins = Math.floor((now - order.createdAt) / 60000);
+                if (elapsedMins >= 5) {
+                    delayedOrdersCount++;
+                }
+            }
+        });
+
+        const tickerBar = document.getElementById('top-news-ticker');
+        const tickerMsg = document.getElementById('ticker-msg');
+
+        if (delayedOrdersCount > 0) {
+            tickerMsg.innerText = `تنبيه هام: توجد (${delayedOrdersCount}) طلبية متأخرة لأكثر من 5 دقائق ولم تُلبَّ بعد!`;
+            tickerBar.classList.remove('hidden');
+        } else {
+            tickerBar.classList.add('hidden');
+        }
+
+        if (!document.getElementById('view-orders').classList.contains('hidden')) {
+            renderOrders();
+        }
+        updateBadge();
+    }
+
+    function goDelayedOrders() {
+        switchTab('orders');
+        filterOrders('delayed');
+    }
+
+    setInterval(checkTimerAlerts, 5000);
 
     function renderOrders() {
         const container = document.getElementById('orders-container');
         container.innerHTML = '';
+        const now = Date.now();
 
-        if (ordersHistory.length === 0) {
-            container.innerHTML = '<p style="text-align:center; color:#94a3b8;">لا توجد طاولات مسجلة في مذكرتك اليوم.</p>';
+        let filtered = ordersHistory.filter(o => {
+            const elapsedMins = Math.floor((now - o.createdAt) / 60000);
+            const isDelayed = elapsedMins >= 5 && o.status === 'pending';
+
+            if (currentFilter === 'pending') return o.status === 'pending' && !isDelayed;
+            if (currentFilter === 'delayed') return isDelayed;
+            if (currentFilter === 'served') return o.status === 'served';
+            return true;
+        });
+
+        if (filtered.length === 0) {
+            container.innerHTML = '<p style="text-align:center; color:#94a3b8; padding:20px 0;">لا توجد طلبيات مسجلة في هذا القسم.</p>';
             return;
         }
 
-        ordersHistory.forEach(order => {
-            const card = document.createElement('div');
-            card.className = `order-card ${order.status === 'served' ? 'served' : ''}`;
+        filtered.forEach(order => {
+            const isServed = order.status === 'served';
+            const elapsedMins = Math.floor((now - order.createdAt) / 60000);
+            const isDelayed = elapsedMins >= 5 && !isServed;
 
-            let itemsHtml = order.items.map(i => `<li>${i.name} × <strong>${i.qty}</strong></li>`).join('');
+            const card = document.createElement('div');
+            card.className = `order-card ${isServed ? 'served' : (isDelayed ? 'delayed' : '')}`;
+
+            let itemsHtml = order.items.map(i => `<li>${i.name} × <strong>${i.qty}</strong> (${i.total} DHS)</li>`).join('');
 
             card.innerHTML = `
                 <div class="order-header">
-                    <span>طاولة رقم: ${order.tableNum}</span>
-                    <span style="font-size:0.8rem; color:#64748b;">${order.timeStr}</span>
+                    <span class="order-title">القاعة / الطاولة: ${order.tableNum}</span>
+                    <span class="status-badge ${isServed ? 'status-served' : (isDelayed ? 'status-delayed' : 'status-pending')}">
+                        ${isServed ? 'تم التلبية ✅' : (isDelayed ? 'تأخير +5 دقائق ⚠️' : 'قيد الانتظار ⏳')}
+                    </span>
+                </div>
+                <div class="order-details">
+                    النادل المسؤول: <strong>${order.waiterName}</strong> | وقت الطلب: ${order.timeStr}
+                    <div class="time-timer ${isDelayed ? 'danger' : ''}">
+                        ${isServed ? 'تم التسليم' : `الانتظار الحالي: ${elapsedMins} دقيقة/دقائق`}
+                    </div>
                 </div>
                 <ul class="order-items-list">${itemsHtml}</ul>
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
+                <div class="order-footer">
                     <div>المجموع: <strong>${order.total} DHS</strong></div>
-                    <button onclick="toggleStatus(${order.id})" style="background:${order.status === 'served' ? '#64748b' : 'var(--success-color)'}; color:white; border:none; padding:6px 10px; border-radius:6px; font-weight:700; font-size:0.8rem;">
-                        ${order.status === 'served' ? 'إعادة لقيد الانتظار' : 'تم التسليم للزبون ✅'}
-                    </button>
+                    <div style="display:flex; gap:6px;">
+                        ${isDelayed ? `<button class="btn-apology" onclick="openApologyModal(${order.id})">⚠️ إعتذار / سبب التأخير</button>` : ''}
+                        <button class="btn-toggle-status ${isServed ? 'undo' : 'serve'}" onclick="toggleStatus(${order.id})">
+                            ${isServed ? 'إعادة لقيد الانتظار' : 'تأكيد التلبية ✅'}
+                        </button>
+                    </div>
                 </div>
             `;
             container.appendChild(card);
         });
     }
 
-    function toggleStatus(id) {
-        const order = ordersHistory.find(o => o.id === id);
+    function openApologyModal(orderId) {
+        const order = ordersHistory.find(o => o.id === orderId);
+        if (order) {
+            document.getElementById('apology-modal-info').innerText = `الطلب الخاص بـ (${order.waiterName}) - القاعة/الطاولة رقم ${order.tableNum}`;
+            document.getElementById('apology-modal').style.display = 'flex';
+        }
+    }
+
+    function closeApologyModal() {
+        document.getElementById('apology-modal').style.display = 'none';
+    }
+
+    function toggleStatus(orderId) {
+        const order = ordersHistory.find(o => o.id === orderId);
         if (order) {
             order.status = order.status === 'pending' ? 'served' : 'pending';
-            localStorage.setItem('waiter_orders', JSON.stringify(ordersHistory));
             renderOrders();
-            updateBadge();
+            checkTimerAlerts();
         }
     }
 
     function updateBadge() {
-        const pending = ordersHistory.filter(o => o.status === 'pending').length;
-        document.getElementById('pending-count').innerText = pending;
+        const pendingCount = ordersHistory.filter(o => o.status === 'pending').length;
+        document.getElementById('pending-count').innerText = pendingCount;
     }
 
-    function renderSummary() {
-        const totalAmount = ordersHistory.reduce((sum, o) => sum + o.total, 0);
-        document.getElementById('summary-tables-count').innerText = ordersHistory.length;
-        document.getElementById('summary-total-amount').innerText = totalAmount;
-    }
-
-    function clearShiftData() {
-        if (confirm("هل أنت تأكد من تصفير ذاكرة اليوم لبدء وردية جديدة؟")) {
-            ordersHistory = [];
-            localStorage.removeItem('waiter_orders');
-            renderOrders();
-            renderSummary();
-            updateBadge();
-            alert("تم تصفير المذكرة بنجاح!");
-        }
+    function filterOrders(status) {
+        currentFilter = status;
+        renderOrders();
     }
 
     function switchTab(tab) {
-        document.getElementById('view-menu').classList.add('hidden');
-        document.getElementById('view-orders').classList.add('hidden');
-        document.getElementById('view-summary').classList.add('hidden');
-        document.getElementById('cart-bar').classList.add('hidden');
-        document.getElementById('table-selector-box').classList.add('hidden');
-
-        document.getElementById('tab-menu-btn').classList.remove('active');
-        document.getElementById('tab-orders-btn').classList.remove('active');
-        document.getElementById('tab-summary-btn').classList.remove('active');
-
         if (tab === 'menu') {
             document.getElementById('view-menu').classList.remove('hidden');
+            document.getElementById('view-orders').classList.add('hidden');
             document.getElementById('cart-bar').classList.remove('hidden');
-            document.getElementById('table-selector-box').classList.remove('hidden');
             document.getElementById('tab-menu-btn').classList.add('active');
-        } else if (tab === 'orders') {
+            document.getElementById('tab-orders-btn').classList.remove('active');
+        } else {
+            document.getElementById('view-menu').classList.add('hidden');
             document.getElementById('view-orders').classList.remove('hidden');
+            document.getElementById('cart-bar').classList.add('hidden');
+            document.getElementById('tab-menu-btn').classList.remove('active');
             document.getElementById('tab-orders-btn').classList.add('active');
             renderOrders();
-        } else if (tab === 'summary') {
-            document.getElementById('view-summary').classList.remove('hidden');
-            document.getElementById('tab-summary-btn').classList.add('active');
-            renderSummary();
         }
     }
 
+    onWaiterChange();
     renderMenu();
-    updateBadge();
 </script>
 
 </body>
-  </html>
+</html>
