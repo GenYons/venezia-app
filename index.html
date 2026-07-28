@@ -35,7 +35,6 @@
             padding-bottom: 110px;
         }
 
-        /* شريط الأخبار التنبيهي في الأعلى */
         .news-ticker-bar {
             background: linear-gradient(90deg, #dc3545 0%, #b02a37 100%);
             color: white;
@@ -77,7 +76,6 @@
             white-space: nowrap;
         }
 
-        /* الشعار الرئيسي */
         header {
             text-align: center;
             background: linear-gradient(135deg, #4a0b18 0%, #7b1e32 50%, #30050f 100%);
@@ -121,7 +119,6 @@
             padding-top: 8px;
         }
 
-        /* التنقل بين الصفحات */
         .nav-tabs {
             display: flex;
             gap: 8px;
@@ -161,7 +158,6 @@
             font-weight: 800;
         }
 
-        /* لوحة تحديد النادل والطاولة */
         .control-panel {
             background: white;
             padding: 12px 15px;
@@ -197,7 +193,6 @@
             font-weight: 600;
         }
 
-        /* أقسام المنيو القابلة للطي */
         .category-card {
             background-color: var(--card-bg);
             border-radius: 12px;
@@ -266,7 +261,6 @@
             cursor: pointer;
         }
 
-        /* بطاقات الذاكرة */
         .order-card {
             background: white;
             border-radius: 12px;
@@ -359,7 +353,17 @@
             gap: 4px;
         }
 
-        /* نافذة الاعتذار Modal */
+        .btn-clear-all {
+            background-color: #cbd5e1;
+            color: #334155;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.78rem;
+            cursor: pointer;
+        }
+
         .modal {
             display: none;
             position: fixed;
@@ -408,7 +412,6 @@
             font-weight: 700;
         }
 
-        /* الشريط السفلي للحفظ والمجموع */
         .cart-bar {
             position: fixed;
             bottom: 0; left: 0; right: 0;
@@ -446,7 +449,6 @@
 <body>
 
 <div class="container">
-    <!-- شريط تنبيه الطلبات المتأخرة -->
     <div id="top-news-ticker" class="news-ticker-bar hidden" onclick="goDelayedOrders()">
         <div class="ticker-content">
             <span>🚨</span>
@@ -491,11 +493,14 @@
     </div>
 
     <div id="view-orders" class="hidden">
-        <div style="margin-bottom: 12px; display: flex; gap: 6px; flex-wrap: wrap;">
-            <button onclick="filterOrders('all')" class="nav-btn" style="padding:6px 10px; font-size:0.8rem;">الكل</button>
-            <button onclick="filterOrders('pending')" class="nav-btn" style="padding:6px 10px; font-size:0.8rem; background-color:#fff7ed; color:#c2410c;">لم يلبى ⏳</button>
-            <button onclick="filterOrders('delayed')" class="nav-btn" style="padding:6px 10px; font-size:0.8rem; background-color:#f8d7da; color:#721c24;">متأخر (+5 دقائق) ⚠️</button>
-            <button onclick="filterOrders('served')" class="nav-btn" style="padding:6px 10px; font-size:0.8rem; background-color:#f0fdf4; color:#15803d;">تم التلبية ✅</button>
+        <div style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;">
+            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                <button onclick="filterOrders('all')" class="nav-btn" style="padding:6px 10px; font-size:0.8rem;">الكل</button>
+                <button onclick="filterOrders('pending')" class="nav-btn" style="padding:6px 10px; font-size:0.8rem; background-color:#fff7ed; color:#c2410c;">لم يلبى ⏳</button>
+                <button onclick="filterOrders('delayed')" class="nav-btn" style="padding:6px 10px; font-size:0.8rem; background-color:#f8d7da; color:#721c24;">متأخر (+5 دقائق) ⚠️</button>
+                <button onclick="filterOrders('served')" class="nav-btn" style="padding:6px 10px; font-size:0.8rem; background-color:#f0fdf4; color:#15803d;">تم التلبية ✅</button>
+            </div>
+            <button onclick="clearAllOrders()" class="btn-clear-all">تفرغ السجل 🗑️</button>
         </div>
         <div id="orders-container"></div>
     </div>
@@ -506,7 +511,6 @@
     <button class="btn-submit" onclick="saveOrder()">حفظ الطلب في الذاكرة 📥</button>
 </div>
 
-<!-- نافذة رسائل الاعتذار -->
 <div id="apology-modal" class="modal">
     <div class="modal-content">
         <h3 style="margin-top:0; color:var(--danger-color); text-align:center;">⚠️ تنبيه تأخير الطلب (+5 دقائق)</h3>
@@ -683,8 +687,14 @@
     ];
 
     let cart = {};
-    let ordersHistory = [];
+    // جلب الطلبيات المحفوظة من ذاكرة المتصفح المحلية عند فتح الصفحة
+    let ordersHistory = JSON.parse(localStorage.getItem('venezia_orders')) || [];
     let currentFilter = 'all';
+
+    // حفظ الطلبيات في ذاكرة المتصفح
+    function persistOrders() {
+        localStorage.setItem('venezia_orders', JSON.stringify(ordersHistory));
+    }
 
     function onWaiterChange() {
         const waiterId = document.getElementById('waiter-select').value;
@@ -795,6 +805,7 @@
         };
 
         ordersHistory.unshift(newOrder);
+        persistOrders(); // حفظ التغييرات في localStorage
 
         cart = {};
         renderMenu();
@@ -913,7 +924,18 @@
         const order = ordersHistory.find(o => o.id === orderId);
         if (order) {
             order.status = order.status === 'pending' ? 'served' : 'pending';
+            persistOrders(); // حفظ التغيير في localStorage
             renderOrders();
+            checkTimerAlerts();
+        }
+    }
+
+    function clearAllOrders() {
+        if (confirm("هل أنت تأكد من إفراغ سجل الطلبيات بالكامل؟")) {
+            ordersHistory = [];
+            persistOrders();
+            renderOrders();
+            updateBadge();
             checkTimerAlerts();
         }
     }
@@ -945,8 +967,11 @@
         }
     }
 
+    // التهيئة الابتدائية عند فتح التطبيق
     onWaiterChange();
     renderMenu();
+    updateBadge();
+    checkTimerAlerts();
 </script>
 
 </body>
