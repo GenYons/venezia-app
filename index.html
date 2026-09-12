@@ -463,6 +463,13 @@
         <p class="header-title">نظام الطلبيات وذاكرة النوادل الذكية</p>
     </header>
 
+    <!-- زر مسح QR المنيو للزبون -->
+    <div style="padding: 0 0 12px 0; text-align: center;">
+      <button onclick="openQRModal()" style="width: 100%; padding: 12px; background: linear-gradient(135deg, #28a745, #20c997); color: white; border: none; border-radius: 12px; font-size: 15px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 12px rgba(40,167,69,0.3);">
+        📱 مسح QR المنيو للزبون
+      </button>
+    </div>
+
     <div class="nav-tabs">
         <button class="nav-btn active" id="tab-menu-btn" onclick="switchTab('menu')">
             <span>تسجيل طلب جديد 📝</span>
@@ -515,9 +522,9 @@
     <div class="modal-content">
         <h3 style="margin-top:0; color:var(--danger-color); text-align:center;">⚠️ تنبيه تأخير الطلب (+5 دقائق)</h3>
         <p id="apology-modal-info" style="font-size:0.85rem; text-align:center; color:#666; margin-bottom:15px;"></p>
-        
+
         <strong style="font-size:0.9rem; color:#333;">اختر العبارة المناسبة لمخاطبة الزبون:</strong>
-        
+
         <div class="apology-box" onclick="alert('تم اختيار نموذج الاعتذار الراقي.')">
             <h5>🙏 1. اعتذار عام بأسلوب راقٍ:</h5>
             <p>"نعتذر منك سيد/ة على هذا التأخير البسيط، طلبكم قيد التحضير بتركيز وعناية وسيصلكم في لحظات معدودة."</p>
@@ -530,6 +537,20 @@
 
         <button class="close-btn" onclick="closeApologyModal()">إغلاق النافذة</button>
     </div>
+</div>
+
+<!-- النافذة المنبثقة لرمز QR -->
+<div id="qrModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(4px); z-index: 10000; justify-content: center; align-items: center;" onclick="closeQRModal(event)">
+  <div style="background: white; padding: 25px; border-radius: 20px; text-align: center; max-width: 320px; width: 85%; box-shadow: 0 10px 25px rgba(0,0,0,0.3);">
+    <h2 style="margin: 0 0 8px 0; color: #1a1a1a; font-size: 22px;">🍦 Venezia Ice</h2>
+    <p style="color: #666; font-size: 13px; margin-bottom: 15px;">امسح الكود بكاميرا الهاتف لتصفح المنيو</p>
+
+    <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://genyons.github.io/venezia-app/" alt="Venezia Ice Menu QR" style="width: 220px; height: 220px; border-radius: 12px; border: 2px solid #f0f0f0;">
+
+    <p style="font-size: 11px; color: #888; margin-top: 10px; word-break: break-all;">https://genyons.github.io/venezia-app/</p>
+
+    <button onclick="closeQRModalDirect()" style="background: #dc3545; color: white; border: none; padding: 10px 25px; border-radius: 8px; font-weight: bold; margin-top: 15px; cursor: pointer;">إغلاق</button>
+  </div>
 </div>
 
 <script>
@@ -687,11 +708,9 @@
     ];
 
     let cart = {};
-    // جلب الطلبيات المحفوظة من ذاكرة المتصفح المحلية عند فتح الصفحة
     let ordersHistory = JSON.parse(localStorage.getItem('venezia_orders')) || [];
     let currentFilter = 'all';
 
-    // حفظ الطلبيات في ذاكرة المتصفح
     function persistOrders() {
         localStorage.setItem('venezia_orders', JSON.stringify(ordersHistory));
     }
@@ -700,7 +719,7 @@
         const waiterId = document.getElementById('waiter-select').value;
         const tableSelect = document.getElementById('table-select');
         tableSelect.innerHTML = '';
-        
+
         waitersData[waiterId].tables.forEach(tableNum => {
             const opt = document.createElement('option');
             opt.value = tableNum;
@@ -756,7 +775,7 @@
         if (!cart[id]) cart[id] = 0;
         cart[id] += delta;
         if (cart[id] <= 0) delete cart[id];
-        
+
         document.getElementById(`qty-${id}`).innerText = cart[id] || 0;
         updateTotal();
     }
@@ -805,7 +824,7 @@
         };
 
         ordersHistory.unshift(newOrder);
-        persistOrders(); // حفظ التغييرات في localStorage
+        persistOrders();
 
         cart = {};
         renderMenu();
@@ -924,7 +943,7 @@
         const order = ordersHistory.find(o => o.id === orderId);
         if (order) {
             order.status = order.status === 'pending' ? 'served' : 'pending';
-            persistOrders(); // حفظ التغيير في localStorage
+            persistOrders();
             renderOrders();
             checkTimerAlerts();
         }
@@ -967,46 +986,25 @@
         }
     }
 
+    // دالتا فتح وإغلاق نافذة QR Code
+    function openQRModal() {
+      document.getElementById('qrModal').style.display = 'flex';
+    }
+    function closeQRModal(e) {
+      if (e.target.id === 'qrModal') {
+        document.getElementById('qrModal').style.display = 'none';
+      }
+    }
+    function closeQRModalDirect() {
+      document.getElementById('qrModal').style.display = 'none';
+    }
+
     // التهيئة الابتدائية عند فتح التطبيق
     onWaiterChange();
     renderMenu();
     updateBadge();
     checkTimerAlerts();
-<div style="padding: 10px; text-align: center;">
-  <button onclick="openQRModal()" style="width: 100%; max-width: 400px; padding: 14px; background: linear-gradient(135deg, #28a745, #20c997); color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 12px rgba(40,167,69,0.3);">
-    📱 مسح QR المنيو للزبون
-  </button>
-</div>
-
-<!-- 2. النافذة المنبثقة عند الضغط على الزر -->
-<div id="qrModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(4px); z-index: 10000; justify-content: center; align-items: center;" onclick="closeQRModal(event)">
-  <div style="background: white; padding: 25px; border-radius: 20px; text-align: center; max-width: 320px; width: 85%; box-shadow: 0 10px 25px rgba(0,0,0,0.3);">
-    <h2 style="margin: 0 0 8px 0; color: #1a1a1a; font-size: 22px;">🍦 Venezia Ice</h2>
-    <p style="color: #666; font-size: 13px; margin-bottom: 15px;">امسح الكود بكاميرا الهاتف لتصفح المنيو</p>
-    
-    <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://genyons.github.io/venezia-app/" alt="Venezia Ice Menu QR" style="width: 220px; height: 220px; border-radius: 12px; border: 2px solid #f0f0f0;">
-    
-    <p style="font-size: 11px; color: #888; margin-top: 10px; word-break: break-all;">https://genyons.github.io/venezia-app/</p>
-    
-    <button onclick="closeQRModalDirect()" style="background: #dc3545; color: white; border: none; padding: 10px 25px; border-radius: 8px; font-weight: bold; margin-top: 15px; cursor: pointer;">إغلاق</button>
-  </div>
-</div>
-
-<script>
-function openQRModal() {
-  document.getElementById('qrModal').style.display = 'flex';
-}
-function closeQRModal(e) {
-  if (e.target.id === 'qrModal') {
-    document.getElementById('qrModal').style.display = 'none';
-  }
-}
-function closeQRModalDirect() {
-  document.getElementById('qrModal').style.display = 'none';
-}
 </script>
-<!-- ==============================================================
-
 
 </body>
 </html>
