@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Venezia Ice - نظام إدارة الطلبات والنوادل</title>
+    <title>Venezia Ice - النظام الذكي المطور</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,700&family=Tajawal:wght@400;500;700;800&display=swap');
 
@@ -18,6 +18,8 @@
             --success-color: #28a745;
             --warning-color: #ff9800;
             --danger-color: #dc3545;
+            --info-color: #17a2b8;
+            --purple-color: #6f42c1;
         }
 
         body {
@@ -30,62 +32,21 @@
         }
 
         .container {
-            max-width: 650px;
+            max-width: 700px;
             margin: 0 auto;
-            padding-bottom: 110px;
-        }
-
-        .news-ticker-bar {
-            background: linear-gradient(90deg, #dc3545 0%, #b02a37 100%);
-            color: white;
-            padding: 10px 14px;
-            border-radius: 12px;
-            margin-bottom: 12px;
-            font-size: 0.88rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            cursor: pointer;
-            animation: ticker-pulse 2s infinite alternate;
-        }
-
-        @keyframes ticker-pulse {
-            0% { box-shadow: 0 0 5px rgba(220, 53, 69, 0.4); transform: scale(1); }
-            100% { box-shadow: 0 0 15px rgba(220, 53, 69, 0.8); transform: scale(1.01); }
-        }
-
-        .ticker-content {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            white-space: nowrap;
-            overflow: hidden;
-        }
-
-        .ticker-btn-go {
-            background-color: white;
-            color: var(--danger-color);
-            border: none;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.78rem;
-            font-weight: 800;
-            white-space: nowrap;
+            padding-bottom: 90px;
         }
 
         header {
             text-align: center;
             background: linear-gradient(135deg, #4a0b18 0%, #7b1e32 50%, #30050f 100%);
             color: white;
-            padding: 20px 15px 16px;
+            padding: 18px 15px;
             border-radius: 16px;
             margin-bottom: 15px;
             box-shadow: 0 6px 15px rgba(107, 17, 36, 0.25);
-            position: relative;
             border: 1px solid rgba(212, 175, 55, 0.3);
+            position: relative;
         }
 
         .brand-logo {
@@ -93,30 +54,104 @@
             font-size: 2.2rem;
             font-weight: 700;
             font-style: italic;
-            letter-spacing: 2px;
             background: linear-gradient(45deg, #fff6d9, var(--accent-gold), #ffffff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
             margin: 0;
             line-height: 1.1;
         }
 
         .brand-subtitle {
-            font-size: 0.82rem;
+            font-size: 0.8rem;
             color: var(--accent-gold);
             letter-spacing: 3px;
             text-transform: uppercase;
             margin-top: 4px;
-            font-weight: 500;
         }
 
-        .header-title {
-            margin: 10px 0 0;
-            font-size: 0.92rem;
-            opacity: 0.9;
-            border-top: 1px solid rgba(255, 255, 255, 0.15);
-            padding-top: 8px;
+        .user-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fff;
+            padding: 10px 14px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            border-right: 4px solid var(--primary-color);
+        }
+
+        .btn-action {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-action:hover { background-color: var(--primary-hover); }
+        .btn-gold { background-color: var(--accent-gold); color: #222; }
+        .btn-gold:hover { background-color: var(--gold-hover); }
+        .btn-danger { background-color: var(--danger-color); color: white; }
+
+        .auth-card, .shift-card {
+            background: white;
+            padding: 22px;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            margin-bottom: 15px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .form-group {
+            margin-bottom: 14px;
+            text-align: right;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+            font-family: inherit;
+            box-sizing: border-box;
+            font-size: 0.95rem;
+        }
+
+        .zones-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .zone-checkbox-card {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.2s;
+        }
+
+        .zone-checkbox-card.selected {
+            background: #fff7ed;
+            border-color: var(--accent-gold);
+            color: var(--primary-color);
+            font-weight: bold;
         }
 
         .nav-tabs {
@@ -127,15 +162,14 @@
 
         .nav-btn {
             flex: 1;
-            padding: 10px 12px;
+            padding: 10px;
             background-color: #ffffff;
             border: 1.5px solid #e2e8f0;
             border-radius: 10px;
             font-weight: 700;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: #555;
             cursor: pointer;
-            transition: all 0.25s ease;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -146,302 +180,113 @@
             background-color: var(--primary-color);
             color: white;
             border-color: var(--primary-color);
-            box-shadow: 0 3px 8px rgba(107, 17, 36, 0.2);
         }
 
-        .badge-count {
-            background-color: var(--accent-gold);
-            color: #333;
-            border-radius: 12px;
-            padding: 2px 7px;
-            font-size: 0.75rem;
+        /* خريطة الطاولات التفاعلية */
+        .floor-zone-block {
+            background: white;
+            border-radius: 14px;
+            padding: 14px;
+            margin-bottom: 14px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border-top: 3px solid var(--accent-gold);
+        }
+
+        .floor-zone-title {
             font-weight: 800;
-        }
-
-        .control-panel {
-            background: white;
-            padding: 12px 15px;
-            border-radius: 12px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
-            display: flex;
-            gap: 10px;
-            border-right: 4px solid var(--accent-gold);
-        }
-
-        .select-group {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .select-group label {
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: #555;
-        }
-
-        .select-group select {
-            padding: 8px 10px;
-            border-radius: 8px;
-            border: 1px solid #cbd5e1;
-            font-size: 0.88rem;
-            font-family: inherit;
-            outline: none;
-            background-color: #f8fafc;
-            font-weight: 600;
-        }
-
-        .category-card {
-            background-color: var(--card-bg);
-            border-radius: 12px;
-            margin-bottom: 10px;
-            overflow: hidden;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.04);
-            border: 1px solid #e2e8f0;
-        }
-
-        .category-btn {
-            width: 100%;
-            background-color: var(--primary-color);
-            color: white;
-            padding: 13px 16px;
-            font-size: 0.98rem;
-            font-weight: 700;
-            border: none;
-            text-align: right;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .category-content {
-            display: none;
-            padding: 10px 12px;
-            background-color: #fafbfc;
-        }
-
-        .category-content.open { display: block; }
-
-        .menu-item {
-            background-color: var(--card-bg);
-            border-radius: 8px;
-            padding: 10px 12px;
-            margin-bottom: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-            border-right: 3px solid var(--accent-gold);
-            direction: ltr;
-        }
-
-        .item-info { text-align: left; flex-grow: 1; }
-        .item-name { font-weight: 700; font-size: 0.92rem; color: #1e293b; }
-        .item-price { color: #64748b; font-size: 0.82rem; margin-top: 2px; }
-
-        .quantity-controls {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-right: 12px;
-        }
-
-        .btn-qty {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            font-weight: 700;
             font-size: 1rem;
-            cursor: pointer;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
         }
 
-        .order-card {
-            background: white;
+        .tables-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .table-tile {
+            background: #f8fafc;
+            border: 2px solid #cbd5e1;
             border-radius: 12px;
+            padding: 12px 6px;
+            text-align: center;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .table-tile .num { font-weight: 800; font-size: 1.1rem; }
+        .table-tile .badge { font-size: 0.7rem; font-weight: 700; padding: 2px 6px; border-radius: 10px; margin-top: 4px; display: block; color: white; }
+
+        .table-tile.state-empty { border-color: #cbd5e1; }
+        .table-tile.state-empty .badge { background: #94a3b8; }
+
+        .table-tile.state-browsing { border-color: var(--info-color); background: #e0f2fe; }
+        .table-tile.state-browsing .badge { background: var(--info-color); }
+
+        .table-tile.state-new_order { border-color: var(--danger-color); background: #ffe4e6; animation: pulse-border 1s infinite alternate; }
+        .table-tile.state-new_order .badge { background: var(--danger-color); }
+
+        .table-tile.state-preparing { border-color: var(--warning-color); background: #fef3c7; }
+        .table-tile.state-preparing .badge { background: var(--warning-color); color: #333; }
+
+        .table-tile.state-served { border-color: var(--success-color); background: #dcfce7; }
+        .table-tile.state-served .badge { background: var(--success-color); }
+
+        .table-tile.state-bill { border-color: var(--purple-color); background: #f3e8ff; animation: pulse-border 0.8s infinite alternate; }
+        .table-tile.state-bill .badge { background: var(--purple-color); }
+
+        @keyframes pulse-border {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.03); }
+        }
+
+        /* واجهة الزبون */
+        .customer-welcome-card {
+            background: linear-gradient(135deg, #fffdfa 0%, #fff6e5 100%);
+            border: 1.5px solid var(--accent-gold);
+            border-radius: 14px;
             padding: 14px;
             margin-bottom: 12px;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.06);
-            border-right: 6px solid var(--warning-color);
-            transition: all 0.25s ease;
-            position: relative;
+            text-align: center;
         }
 
-        .order-card.served {
-            border-right-color: var(--success-color);
-            background-color: #fbfdfb;
+        .quick-actions-bar {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 14px;
         }
 
-        .order-card.delayed {
-            border-right-color: var(--danger-color);
-            background-color: #fff5f5;
-        }
-
-        .order-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px dashed #e2e8f0;
-            padding-bottom: 8px;
-            margin-bottom: 8px;
-        }
-
-        .order-title { font-weight: 800; font-size: 0.98rem; color: var(--primary-color); }
-
-        .status-badge {
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.78rem;
-            font-weight: 700;
-        }
-
-        .status-pending { background-color: #fff7ed; color: #c2410c; }
-        .status-delayed { background-color: #f8d7da; color: #721c24; font-weight: 800; }
-        .status-served { background-color: #f0fdf4; color: #15803d; }
-
-        .time-timer {
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: #d97706;
-            margin-top: 2px;
-        }
-
-        .time-timer.danger { color: var(--danger-color); }
-
-        .order-details { font-size: 0.82rem; color: #64748b; margin-bottom: 8px; }
-        .order-items-list { margin: 8px 0; padding-right: 18px; font-size: 0.88rem; color: #334155; }
-
-        .order-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 10px;
-            padding-top: 8px;
-            border-top: 1px solid #f1f5f9;
-            flex-wrap: wrap;
-            gap: 6px;
-        }
-
-        .btn-toggle-status {
-            padding: 6px 14px;
-            border: none;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 0.82rem;
-            cursor: pointer;
-        }
-
-        .btn-toggle-status.serve { background-color: var(--success-color); color: white; }
-        .btn-toggle-status.undo { background-color: #64748b; color: white; }
-
-        .btn-apology {
-            background-color: var(--danger-color);
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 0.8rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .btn-clear-all {
-            background-color: #cbd5e1;
-            color: #334155;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 0.78rem;
-            cursor: pointer;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.65);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            padding: 15px;
-            box-sizing: border-box;
-        }
-
-        .modal-content {
-            background: white;
-            padding: 20px;
-            border-radius: 14px;
-            width: 100%;
-            max-width: 450px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-        }
-
-        .apology-box {
-            background: #f8fafc;
+        .btn-quick-call {
+            padding: 10px 6px;
+            border-radius: 10px;
             border: 1px solid #cbd5e1;
-            border-right: 4px solid var(--primary-color);
-            border-radius: 8px;
-            padding: 12px;
-            margin-top: 10px;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .apology-box:hover { background: #f1f5f9; }
-        .apology-box h5 { margin: 0 0 5px 0; color: var(--primary-color); font-size: 0.95rem; }
-        .apology-box p { margin: 0; font-size: 0.88rem; color: #334155; line-height: 1.4; }
-
-        .close-btn {
-            background-color: #64748b;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 8px;
-            width: 100%;
-            margin-top: 15px;
-            cursor: pointer;
+            background: white;
             font-weight: 700;
-        }
-
-        .cart-bar {
-            position: fixed;
-            bottom: 0; left: 0; right: 0;
-            background-color: white;
-            box-shadow: 0 -4px 15px rgba(0,0,0,0.1);
-            padding: 12px 18px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 650px;
-            margin: 0 auto;
-            border-top-left-radius: 16px;
-            border-top-right-radius: 16px;
-            z-index: 100;
-            border-top: 2px solid var(--accent-gold);
-        }
-
-        .total-price { font-size: 1.05rem; font-weight: 800; }
-        .total-price span { color: var(--primary-color); }
-
-        .btn-submit {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 10px 18px;
-            border-radius: 8px;
-            font-weight: 700;
+            font-size: 0.8rem;
             cursor: pointer;
-            font-size: 0.9rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+            text-align: center;
         }
+
+        .category-card { background: white; border-radius: 12px; margin-bottom: 10px; border: 1px solid #e2e8f0; overflow: hidden; }
+        .category-btn { width: 100%; background: var(--primary-color); color: white; padding: 12px 15px; font-weight: 700; border: none; text-align: right; cursor: pointer; display: flex; justify-content: space-between; }
+        .category-content { display: none; padding: 10px; }
+        .category-content.open { display: block; }
+
+        .menu-item { background: white; border-radius: 8px; padding: 10px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; border-right: 3px solid var(--accent-gold); direction: ltr; }
+        .item-info { text-align: left; }
+        .quantity-controls { display: flex; align-items: center; gap: 8px; }
+        .btn-qty { background: var(--primary-color); color: white; border: none; width: 26px; height: 26px; border-radius: 50%; font-weight: 700; cursor: pointer; }
+
+        .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.65); justify-content: center; align-items: center; z-index: 1000; padding: 15px; box-sizing: border-box; }
+        .modal-content { background: white; padding: 20px; border-radius: 14px; width: 100%; max-width: 450px; }
+
+        .cart-bar { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 12px 18px; display: flex; justify-content: space-between; align-items: center; max-width: 700px; margin: 0 auto; border-top-left-radius: 16px; border-top-right-radius: 16px; box-shadow: 0 -4px 15px rgba(0,0,0,0.1); border-top: 2px solid var(--accent-gold); }
 
         .hidden { display: none !important; }
     </style>
@@ -449,115 +294,173 @@
 <body>
 
 <div class="container">
-    <div id="top-news-ticker" class="news-ticker-bar hidden" onclick="goDelayedOrders()">
-        <div class="ticker-content">
-            <span>🚨</span>
-            <span class="ticker-text" id="ticker-msg">تنبيه هام: توجد طلبيات متأخرة لأكثر من 5 دقائق!</span>
-        </div>
-        <button class="ticker-btn-go">عرض الطلبيات 👈</button>
-    </div>
-
     <header>
         <div class="brand-logo">Venezia Ice</div>
         <div class="brand-subtitle">Café & Gelateria</div>
-        <p class="header-title">نظام الطلبيات وذاكرة النوادل الذكية</p>
     </header>
 
-    <!-- زر مسح QR المنيو للزبون -->
-    <div style="padding: 0 0 12px 0; text-align: center;">
-      <button onclick="openQRModal()" style="width: 100%; padding: 12px; background: linear-gradient(135deg, #28a745, #20c997); color: white; border: none; border-radius: 12px; font-size: 15px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 12px rgba(40,167,69,0.3);">
-        📱 مسح QR المنيو للزبون
-      </button>
-    </div>
-
-    <div class="nav-tabs">
-        <button class="nav-btn active" id="tab-menu-btn" onclick="switchTab('menu')">
-            <span>تسجيل طلب جديد 📝</span>
-        </button>
-        <button class="nav-btn" id="tab-orders-btn" onclick="switchTab('orders')">
-            <span>ذاكرة الطلبيات 📋</span>
-            <span class="badge-count" id="pending-count">0</span>
-        </button>
-    </div>
-
-    <div class="control-panel">
-        <div class="select-group">
-            <label>اسم النادل:</label>
-            <select id="waiter-select" onchange="onWaiterChange()">
-                <option value="1">النادل 1 (القاعات 1, 2, 3)</option>
-                <option value="2">النادل 2 (القاعات 4, 5, 6)</option>
-                <option value="3">النادل الرئيسي (جميع القاعات)</option>
-            </select>
+    <!-- 1. شاشة الزبون (عند فتح الرابط مع رمز المكان) -->
+    <div id="view-customer" class="hidden">
+        <div class="customer-welcome-card">
+            <h3 style="margin:0 0 4px 0; color:var(--primary-color);">مرحباً بك في Venezia Ice ✨</h3>
+            <p id="cust-location-text" style="margin:0; font-size:0.9rem; font-weight:bold; color:#444;"></p>
+            <p id="cust-waiter-text" style="margin:4px 0 0 0; font-size:0.82rem; color:var(--accent-gold); font-weight:bold;"></p>
         </div>
-        <div class="select-group">
-            <label>رقم القاعة / الطاولة:</label>
-            <select id="table-select"></select>
+
+        <div class="quick-actions-bar">
+            <button class="btn-quick-call" onclick="sendQuickCustomerRequest('bill')">💳 طلب الحساب</button>
+            <button class="btn-quick-call" onclick="sendQuickCustomerRequest('waiter')">🔔 استدعاء النادل</button>
+            <button class="btn-quick-call" onclick="sendQuickCustomerRequest('water')">🧻 مناديل / ماء</button>
+        </div>
+
+        <div id="cust-live-status-box" class="customer-welcome-card hidden" style="background:#f0fdf4; border-color:var(--success-color);">
+            <strong style="color:var(--success-color);">حالة طلبك الحالية:</strong>
+            <div id="cust-live-status-text" style="font-weight:800; font-size:1.05rem; margin-top:4px;"></div>
+        </div>
+
+        <div id="customer-menu-container"></div>
+
+        <div class="cart-bar">
+            <div style="font-weight:800;">المجموع: <span id="grand-total" style="color:var(--primary-color);">0</span> DHS</div>
+            <button class="btn-action" onclick="submitCustomerOrder()">إرسال الطلب للنادل 🚀</button>
         </div>
     </div>
 
-    <div id="view-menu">
-        <div id="menu-container"></div>
-    </div>
-
-    <div id="view-orders" class="hidden">
-        <div style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;">
-            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-                <button onclick="filterOrders('all')" class="nav-btn" style="padding:6px 10px; font-size:0.8rem;">الكل</button>
-                <button onclick="filterOrders('pending')" class="nav-btn" style="padding:6px 10px; font-size:0.8rem; background-color:#fff7ed; color:#c2410c;">لم يلبى ⏳</button>
-                <button onclick="filterOrders('delayed')" class="nav-btn" style="padding:6px 10px; font-size:0.8rem; background-color:#f8d7da; color:#721c24;">متأخر (+5 دقائق) ⚠️</button>
-                <button onclick="filterOrders('served')" class="nav-btn" style="padding:6px 10px; font-size:0.8rem; background-color:#f0fdf4; color:#15803d;">تم التلبية ✅</button>
+    <!-- 2. شاشة تسجيل دخول النادل -->
+    <div id="view-waiter-auth" class="hidden">
+        <div class="auth-card">
+            <h3 style="margin-top:0; color:var(--primary-color); text-align:center;">تسجيل دخول النادل 🔑</h3>
+            <div class="form-group">
+                <label>اسم النادل / البريد:</label>
+                <input type="text" id="auth-username" placeholder="مثال: يونس">
             </div>
-            <button onclick="clearAllOrders()" class="btn-clear-all">تفرغ السجل 🗑️</button>
+            <div class="form-group">
+                <label>كلمة المرور:</label>
+                <input type="password" id="auth-password" placeholder="••••••••">
+            </div>
+            <button class="btn-action" style="width:100%; margin-top:10px;" onclick="loginWaiter()">تسجيل الدخول</button>
+            
+            <hr style="margin: 20px 0; border:0; border-top:1px solid #eee;">
+            
+            <h4 style="margin:0 0 10px 0; text-align:center;">ليس لديك حساب؟ إنشاء حساب جديد</h4>
+            <div class="form-group">
+                <label>الاسم الكامل:</label>
+                <input type="text" id="reg-name" placeholder="اسمك الكامل">
+            </div>
+            <div class="form-group">
+                <label>كلمة السر الجديدة:</label>
+                <input type="password" id="reg-pass" placeholder="كلمة السر">
+            </div>
+            <button class="btn-action btn-gold" style="width:100%;" onclick="registerWaiter()">إنشاء حساب نادل جديد</button>
         </div>
-        <div id="orders-container"></div>
+    </div>
+
+    <!-- 3. شاشة إعداد الوردية للنادل (تحديد القاعات والتراسات) -->
+    <div id="view-waiter-shift" class="hidden">
+        <div class="shift-card">
+            <h3 style="margin-top:0; color:var(--primary-color);">تحديد وردية العمل والنطاق 📍</h3>
+            <p style="font-size:0.85rem; color:#666;">اختر التراسات والقاعات التي تتولى مسؤوليتها خلال هذه الوردية لتلقي إشعاراتها وطاولاتها فقط:</p>
+            
+            <strong style="color:var(--primary-color);">☀️ الأجزاء الخارجية (Terrasses):</strong>
+            <div class="zones-grid" id="shift-terrasses-grid"></div>
+
+            <strong style="color:var(--primary-color); display:block; margin-top:14px;">🏛️ الأجزاء الداخلية (Salles):</strong>
+            <div class="zones-grid" id="shift-salles-grid"></div>
+
+            <button class="btn-action" style="width:100%; margin-top:20px; padding:12px;" onclick="startShift()">بدء الوردية وتفعيل الخريطة 🗺️</button>
+        </div>
+    </div>
+
+    <!-- 4. لوحة تحكم النادل الرئيسية -->
+    <div id="view-waiter-dashboard" class="hidden">
+        <div class="user-bar">
+            <div>
+                👤 النادل: <strong id="dash-waiter-name" style="color:var(--primary-color);"></strong>
+            </div>
+            <div>
+                <button class="btn-action btn-gold" onclick="openShiftSetup()" style="padding:4px 8px; font-size:0.78rem;">تعديل الوردية</button>
+                <button class="btn-action btn-danger" onclick="logoutWaiter()" style="padding:4px 8px; font-size:0.78rem;">خروج</button>
+            </div>
+        </div>
+
+        <div class="nav-tabs">
+            <button class="nav-btn active" id="tab-floor-btn" onclick="switchWaiterTab('floor')">
+                <span>خريطة الطاولات 🗺️</span>
+            </button>
+            <button class="nav-btn" id="tab-orders-btn" onclick="switchWaiterTab('memory')">
+                <span>ذاكرة الطلبات 📋</span>
+                <span id="pending-badge" style="background:var(--accent-gold); color:#222; border-radius:10px; padding:1px 6px; font-size:0.75rem;">0</span>
+            </button>
+            <button class="nav-btn" onclick="openQRModal()">
+                <span>QR المنيو 📱</span>
+            </button>
+        </div>
+
+        <!-- تبويب خريطة الطاولات -->
+        <div id="waiter-tab-floor">
+            <div id="floor-map-container"></div>
+        </div>
+
+        <!-- تبويب ذاكرة الطلبات القديم للمتابعة والتأخير -->
+        <div id="waiter-tab-memory" class="hidden">
+            <div id="memory-orders-container"></div>
+        </div>
     </div>
 </div>
 
-<div class="cart-bar" id="cart-bar">
-    <div class="total-price">المجموع: <span id="grand-total">0</span> DHS</div>
-    <button class="btn-submit" onclick="saveOrder()">حفظ الطلب في الذاكرة 📥</button>
-</div>
-
-<div id="apology-modal" class="modal">
+<!-- النافذة المنبثقة للتفاعل مع الطاولة -->
+<div id="table-modal" class="modal">
     <div class="modal-content">
-        <h3 style="margin-top:0; color:var(--danger-color); text-align:center;">⚠️ تنبيه تأخير الطلب (+5 دقائق)</h3>
-        <p id="apology-modal-info" style="font-size:0.85rem; text-align:center; color:#666; margin-bottom:15px;"></p>
-
-        <strong style="font-size:0.9rem; color:#333;">اختر العبارة المناسبة لمخاطبة الزبون:</strong>
-
-        <div class="apology-box" onclick="alert('تم اختيار نموذج الاعتذار الراقي.')">
-            <h5>🙏 1. اعتذار عام بأسلوب راقٍ:</h5>
-            <p>"نعتذر منك سيد/ة على هذا التأخير البسيط، طلبكم قيد التحضير بتركيز وعناية وسيصلكم في لحظات معدودة."</p>
+        <h3 id="modal-table-title" style="margin-top:0; color:var(--primary-color);"></h3>
+        <div id="modal-table-body"></div>
+        <div style="display:flex; gap:8px; margin-top:15px; flex-wrap:wrap;">
+            <button class="btn-action" id="modal-btn-accept" style="flex:1;" onclick="updateModalOrderState('PREPARING')">تأكيد وتحضير ☕</button>
+            <button class="btn-action btn-gold" id="modal-btn-serve" style="flex:1;" onclick="updateModalOrderState('SERVED')">تم التسليم ✅</button>
+            <button class="btn-action btn-danger" style="flex:1;" onclick="clearTableState()">إغلاق الطاولة ⚪</button>
         </div>
-
-        <div class="apology-box" style="border-right-color: var(--warning-color);" onclick="alert('تم اختيار نموذج توضيح المطبخ.')">
-            <h5>🍳 2. توضيح سبب الضغط في المطبخ:</h5>
-            <p>"نعتذر شديد الاعتذار، يوجد ضغط إقبال كبير في قسم المطبخ/التحضير حالياً، والطاقم يعمل بجهد على طلبكم لضمان جودته."</p>
-        </div>
-
-        <button class="close-btn" onclick="closeApologyModal()">إغلاق النافذة</button>
+        <button class="btn-action" style="width:100%; margin-top:8px; background:#64748b;" onclick="closeModal()">إغلاق النافذة</button>
     </div>
 </div>
 
-<!-- النافذة المنبثقة لرمز QR -->
-<div id="qrModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(4px); z-index: 10000; justify-content: center; align-items: center;" onclick="closeQRModal(event)">
-  <div style="background: white; padding: 25px; border-radius: 20px; text-align: center; max-width: 320px; width: 85%; box-shadow: 0 10px 25px rgba(0,0,0,0.3);">
-    <h2 style="margin: 0 0 8px 0; color: #1a1a1a; font-size: 22px;">🍦 Venezia Ice</h2>
-    <p style="color: #666; font-size: 13px; margin-bottom: 15px;">امسح الكود بكاميرا الهاتف لتصفح المنيو</p>
+<!-- النافذة المنبثقة لـ QR Code -->
+<div id="qrModal" class="modal" onclick="closeQRModal(event)">
+  <div style="background: white; padding: 22px; border-radius: 20px; text-align: center; max-width: 320px; width: 85%;">
+    <h2 style="margin: 0 0 6px 0; color: #1a1a1a;">🍦 Venezia Ice</h2>
+    <p style="color: #666; font-size: 13px; margin-bottom: 12px;">اختر مكان الطاولة لعرض QR المنيو الخاص بها:</p>
 
-    <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://genyons.github.io/venezia-app/" alt="Venezia Ice Menu QR" style="width: 220px; height: 220px; border-radius: 12px; border: 2px solid #f0f0f0;">
+    <div style="display:flex; gap:6px; margin-bottom:10px;">
+        <select id="qr-select-zone" onchange="updateQRImage()" style="flex:1; padding:8px; border-radius:8px;"></select>
+        <select id="qr-select-table" onchange="updateQRImage()" style="flex:1; padding:8px; border-radius:8px;">
+            <option value="T1">طاولة T1</option>
+            <option value="T2">طاولة T2</option>
+            <option value="T3">طاولة T3</option>
+            <option value="T4">طاولة T4</option>
+        </select>
+    </div>
 
-    <p style="font-size: 11px; color: #888; margin-top: 10px; word-break: break-all;">https://genyons.github.io/venezia-app/</p>
+    <img id="qr-code-img" src="" alt="QR Code" style="width: 200px; height: 200px; border-radius: 12px; border: 2px solid #f0f0f0;">
+    <p id="qr-link-text" style="font-size: 10px; color: #888; margin-top: 8px; word-break: break-all;"></p>
 
-    <button onclick="closeQRModalDirect()" style="background: #dc3545; color: white; border: none; padding: 10px 25px; border-radius: 8px; font-weight: bold; margin-top: 15px; cursor: pointer;">إغلاق</button>
+    <button onclick="closeQRModalDirect()" class="btn-action btn-danger" style="margin-top: 10px; width:100%;">إغلاق</button>
   </div>
 </div>
 
 <script>
-    const waitersData = {
-        1: { name: "النادل 1", tables: [1, 2, 3] },
-        2: { name: "النادل 2", tables: [4, 5, 6] },
-        3: { name: "النادل الرئيسي", tables: [1, 2, 3, 4, 5, 6] }
+    // 1. هيكلية المكان (Terrasses 1..4 & Salles 1..5)
+    const VENUE_CONFIG = {
+        terrasses: [
+            { id: 'Terras1', name: 'تراس 1 (خارجي)', tables: ['T1', 'T2', 'T3', 'T4'] },
+            { id: 'Terras2', name: 'تراس 2 (خارجي)', tables: ['T1', 'T2', 'T3', 'T4'] },
+            { id: 'Terras3', name: 'تراس 3 (خارجي)', tables: ['T1', 'T2', 'T3', 'T4'] },
+            { id: 'Terras4', name: 'تراس 4 (خارجي)', tables: ['T1', 'T2', 'T3', 'T4'] }
+        ],
+        salles: [
+            { id: 'Sale1', name: 'قاعة 1 (داخلي)', tables: ['T1', 'T2', 'T3', 'T4'] },
+            { id: 'Sale2', name: 'قاعة 2 (داخلي)', tables: ['T1', 'T2', 'T3', 'T4'] },
+            { id: 'Sale3', name: 'قاعة 3 (داخلي)', tables: ['T1', 'T2', 'T3', 'T4'] },
+            { id: 'Sale4', name: 'قاعة 4 (داخلي)', tables: ['T1', 'T2', 'T3', 'T4'] },
+            { id: 'Sale5', name: 'قاعة 5 (داخلي)', tables: ['T1', 'T2', 'T3', 'T4'] }
+        ]
     };
 
     const menuData = [
@@ -568,443 +471,471 @@
                 { id: 2, name: "Le Français", price: 69 },
                 { id: 3, name: "Le Gourmand", price: 79 },
                 { id: 4, name: "Le Beldi", price: 89 },
-                { id: 5, name: "L'Anglais", price: 89 },
-                { id: 6, name: "L'Espagnol", price: 69 },
-                { id: 7, name: "Le Healthy", price: 89 },
-                { id: 8, name: "Venezia Kids Breakfast", price: 59 },
-                { id: 9, name: "Le Bien-être (Brunch)", price: 119 },
-                { id: 10, name: "Le Duo Signature (Brunch)", price: 159 }
+                { id: 5, name: "Le Bien-être (Brunch)", price: 119 }
             ]
         },
         {
-            category: "Nos Pizzas",
+            category: "Nos Pizzas & Pâtes",
             items: [
                 { id: 11, name: "Margherita", price: 65 },
                 { id: 12, name: "Italienne", price: 75 },
-                { id: 13, name: "Al Tonno", price: 75 },
-                { id: 14, name: "Bismarck", price: 85 },
-                { id: 15, name: "Con Pollo & Funghi", price: 85 },
-                { id: 16, name: "Frutti Di Mare", price: 95 },
-                { id: 17, name: "Venezia Kids Pizza", price: 60 }
+                { id: 18, name: "Pâtes Bolognaise", price: 80 }
             ]
         },
         {
-            category: "Coin Italien - Nos Pâtes",
+            category: "Nos Boissons & Cafés",
             items: [
-                { id: 18, name: "Pâtes Bolognaise", price: 80 },
-                { id: 19, name: "Pâtes Alfredo", price: 85 },
-                { id: 20, name: "Pâtes Frutti Di Mare", price: 95 }
-            ]
-        },
-        {
-            category: "Sur Le Pouce (Salades & Paninis)",
-            items: [
-                { id: 21, name: "Salade Niçoise", price: 65 },
-                { id: 22, name: "Salade César", price: 85 },
-                { id: 23, name: "Salade Quinoa", price: 85 },
-                { id: 24, name: "Panini Trois Fromages / Thon / Poulet / Viande hachée", price: 70 }
-            ]
-        },
-        {
-            category: "Nos Sandwichs & Burgers",
-            items: [
-                { id: 25, name: "Sandwich Marocain au choix", price: 75 },
-                { id: 26, name: "Sandwich Campagnard", price: 75 },
-                { id: 27, name: "Sandwich Tuna Fraîcheur", price: 75 },
-                { id: 28, name: "Croque Monsieur", price: 65 },
-                { id: 29, name: "Club Sandwich Poulet", price: 75 },
-                { id: 30, name: "Burger Gourmet", price: 95 },
-                { id: 31, name: "Burger Crispy Chicken", price: 95 },
-                { id: 32, name: "Burger Suprême", price: 115 },
-                { id: 33, name: "Menu Midi (Sandwich + Soda)", price: 85 }
-            ]
-        },
-        {
-            category: "Nos Crêpes & Gourmandises",
-            items: [
-                { id: 34, name: "Crêpe Nutella", price: 55 },
-                { id: 35, name: "Crêpe Nutella Banane", price: 65 },
-                { id: 36, name: "Crêpe Ferrero", price: 75 },
-                { id: 37, name: "Crêpe Pistache", price: 85 },
-                { id: 38, name: "Crêpe 3 Fromages", price: 60 },
-                { id: 39, name: "Crêpe Parisienne", price: 65 },
-                { id: 40, name: "Crêpe Forestière", price: 75 },
-                { id: 41, name: "Crêpe Scandinave", price: 85 }
-            ]
-        },
-        {
-            category: "Nos Coupes Signatures & Glaces",
-            items: [
-                { id: 42, name: "Coupe Florence", price: 75 },
-                { id: 43, name: "Coupe Roma", price: 75 },
-                { id: 44, name: "Coupe Milano", price: 75 },
-                { id: 45, name: "Coupe Capri", price: 75 },
-                { id: 46, name: "Coupe Portofino", price: 75 },
-                { id: 47, name: "Coupe Gran Venezia", price: 140 },
-                { id: 48, name: "Coupe Bambino", price: 45 },
-                { id: 49, name: "Coupe au choix", price: 50 },
-                { id: 50, name: "Une boule de glace au choix", price: 25 }
-            ]
-        },
-        {
-            category: "Nos Boissons Chaudes",
-            items: [
-                { id: 51, name: "Thé à la menthe / Verveine", price: 27 },
-                { id: 52, name: "Espresso / Allongé", price: 27 },
-                { id: 53, name: "Double Espresso", price: 37 },
-                { id: 54, name: "Cortado / Ness Ness", price: 32 },
-                { id: 55, name: "Café Crème / Cappuccino", price: 32 },
-                { id: 56, name: "Café Moka / Chocolat Chaud", price: 35 },
-                { id: 57, name: "Infusion au choix", price: 30 },
-                { id: 58, name: "Lait (Chaud ou Froid)", price: 25 },
-                { id: 59, name: "Café Aromatisé", price: 35 },
-                { id: 60, name: "Flat White", price: 40 },
-                { id: 61, name: "Spanish Latte", price: 40 },
-                { id: 62, name: "Caramel Macchiato", price: 40 },
-                { id: 63, name: "Affogato", price: 50 },
-                { id: 64, name: "Chocolat Chaud Venezia", price: 50 }
-            ]
-        },
-        {
-            category: "Nos Cafés Glacés",
-            items: [
-                { id: 65, name: "Iced Americano", price: 40 },
-                { id: 66, name: "Iced Latte", price: 40 },
-                { id: 67, name: "Iced Spanish Latte", price: 45 },
-                { id: 68, name: "Iced Caramel Macchiato", price: 45 },
-                { id: 69, name: "Iced Nutella Latte", price: 45 },
-                { id: 70, name: "Iced Pistachio Latte", price: 45 }
-            ]
-        },
-        {
-            category: "Nos Mocktails & Boissons Fraîches",
-            items: [
-                { id: 71, name: "Virgin Mojito Classic", price: 60 },
-                { id: 72, name: "Virgin Mojito Fruit de la Passion", price: 65 },
-                { id: 73, name: "Pina Colada", price: 65 },
-                { id: 74, name: "Dolce Vita", price: 65 },
-                { id: 75, name: "Hawaiï", price: 65 },
-                { id: 76, name: "Sunrise Tropical", price: 65 }
-            ]
-        },
-        {
-            category: "Nos Jus Frais, Milkshakes & Eaux",
-            items: [
-                { id: 77, name: "Jus Classique", price: 35 },
-                { id: 78, name: "Jus de fruits de saison", price: 50 },
-                { id: 79, name: "Jus Détox", price: 55 },
-                { id: 80, name: "Jus Tonic", price: 55 },
-                { id: 81, name: "Jus Énergétique", price: 65 },
-                { id: 82, name: "Jus Smoothie", price: 65 },
-                { id: 83, name: "Milkshake Classique", price: 65 },
-                { id: 84, name: "Espresso Shake", price: 69 },
-                { id: 85, name: "Oreo Shake", price: 69 },
-                { id: 86, name: "Milkshake Pistachio", price: 69 },
-                { id: 87, name: "Eau minérale / gazeuse 50cl", price: 20 },
-                { id: 88, name: "Sodas", price: 25 },
-                { id: 89, name: "Ice Tea", price: 25 }
+                { id: 51, name: "Thé à la menthe", price: 27 },
+                { id: 52, name: "Espresso", price: 27 },
+                { id: 55, name: "Cappuccino", price: 32 },
+                { id: 71, name: "Virgin Mojito", price: 60 }
             ]
         }
     ];
 
-    let cart = {};
-    let ordersHistory = JSON.parse(localStorage.getItem('venezia_orders')) || [];
-    let currentFilter = 'all';
+    // قاعدة البيانات المحلية والمحاكاة المباشرة
+    let waitersDB = JSON.parse(localStorage.getItem('venezia_waiters_db')) || [
+        { name: "يونس", pass: "1234" },
+        { name: "النادل 2", pass: "1234" }
+    ];
 
-    function persistOrders() {
-        localStorage.setItem('venezia_orders', JSON.stringify(ordersHistory));
+    let currentWaiter = JSON.parse(localStorage.getItem('venezia_active_waiter')) || null;
+    let selectedShiftZones = JSON.parse(localStorage.getItem('venezia_shift_zones')) || [];
+    let tablesStateDB = JSON.parse(localStorage.getItem('venezia_tables_state')) || {}; // Key: Zone-Table
+
+    let activeCustomerCart = {};
+    let activeCustomerLocation = { zone: null, table: null };
+    let activeModalTableKey = null;
+
+    // قناة القراءة والمزامنة المباشرة
+    const channel = new BroadcastChannel('venezia_channel');
+    channel.onmessage = (event) => {
+        refreshDataFromStorage();
+    };
+
+    function notifyOtherTabs() {
+        localStorage.setItem('venezia_tables_state', JSON.stringify(tablesStateDB));
+        channel.postMessage('sync');
+        refreshViews();
     }
 
-    function onWaiterChange() {
-        const waiterId = document.getElementById('waiter-select').value;
-        const tableSelect = document.getElementById('table-select');
-        tableSelect.innerHTML = '';
+    function refreshDataFromStorage() {
+        tablesStateDB = JSON.parse(localStorage.getItem('venezia_tables_state')) || {};
+        refreshViews();
+    }
 
-        waitersData[waiterId].tables.forEach(tableNum => {
-            const opt = document.createElement('option');
-            opt.value = tableNum;
-            opt.innerText = `القاعة / الطاولة ${tableNum}`;
-            tableSelect.appendChild(opt);
+    // صوت الإشعار التفاعلي للنادل
+    function triggerAudioAlert() {
+        try {
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = ctx.createOscillator();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(587.33, ctx.currentTime);
+            osc.connect(ctx.destination);
+            osc.start();
+            osc.stop(ctx.currentTime + 0.4);
+        } catch(e) {}
+    }
+
+    // تهيئة الصفحة وتحديد الواجهة المُراد عرضها
+    function initApp() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const zoneParam = urlParams.get('zone');
+        const tableParam = urlParams.get('table');
+
+        if (zoneParam && tableParam) {
+            // واجهة الزبون
+            activeCustomerLocation = { zone: zoneParam, table: tableParam };
+            showView('view-customer');
+            setupCustomerView();
+            markTableState(zoneParam, tableParam, 'BROWSING', null, false);
+        } else {
+            // واجهة النادل
+            if (!currentWaiter) {
+                showView('view-waiter-auth');
+            } else if (selectedShiftZones.length === 0) {
+                showView('view-waiter-shift');
+                renderShiftSelectionGrid();
+            } else {
+                showView('view-waiter-dashboard');
+                setupDashboardView();
+            }
+        }
+    }
+
+    function showView(viewId) {
+        ['view-customer', 'view-waiter-auth', 'view-waiter-shift', 'view-waiter-dashboard'].forEach(id => {
+            document.getElementById(id).classList.add('hidden');
         });
+        document.getElementById(viewId).classList.remove('hidden');
     }
 
-    function renderMenu() {
-        const container = document.getElementById('menu-container');
+    // --- منطق الزبون ---
+    function setupCustomerView() {
+        const { zone, table } = activeCustomerLocation;
+        document.getElementById('cust-location-text').innerText = `${getZoneName(zone)} - الطاولة ${table}`;
+        
+        // البحث عن النادل المسؤول عن هذه القاعة
+        const assignedWaiter = currentWaiter && selectedShiftZones.includes(zone) ? currentWaiter.name : "طاقم الخدمة";
+        document.getElementById('cust-waiter-text').innerText = `النادل المسؤول: ${assignedWaiter}`;
+
+        renderCustomerMenu();
+        updateCustomerLiveStatus();
+    }
+
+    function renderCustomerMenu() {
+        const container = document.getElementById('customer-menu-container');
         container.innerHTML = '';
 
         menuData.forEach((cat, index) => {
             const card = document.createElement('div');
             card.className = 'category-card';
-
-            const btn = document.createElement('button');
-            btn.className = 'category-btn';
-            btn.innerHTML = `<span>${cat.category}</span> <span>▼</span>`;
-            btn.onclick = () => {
-                const content = document.getElementById(`cat-content-${index}`);
-                content.classList.toggle('open');
-            };
-
-            const content = document.createElement('div');
-            content.className = 'category-content';
-            content.id = `cat-content-${index}`;
-
-            cat.items.forEach(item => {
-                const itemEl = document.createElement('div');
-                itemEl.className = 'menu-item';
-                itemEl.innerHTML = `
-                    <div class="item-info">
-                        <div class="item-name">${item.name}</div>
-                        <div class="item-price">${item.price} DHS</div>
-                    </div>
-                    <div class="quantity-controls">
-                        <button class="btn-qty" onclick="changeQty(${item.id}, -1)">-</button>
-                        <span class="qty-count" id="qty-${item.id}">0</span>
-                        <button class="btn-qty" onclick="changeQty(${item.id}, 1)">+</button>
-                    </div>
-                `;
-                content.appendChild(itemEl);
-            });
-
-            card.appendChild(btn);
-            card.appendChild(content);
-            container.appendChild(card);
-        });
-    }
-
-    function changeQty(id, delta) {
-        if (!cart[id]) cart[id] = 0;
-        cart[id] += delta;
-        if (cart[id] <= 0) delete cart[id];
-
-        document.getElementById(`qty-${id}`).innerText = cart[id] || 0;
-        updateTotal();
-    }
-
-    function updateTotal() {
-        let total = 0;
-        menuData.forEach(cat => {
-            cat.items.forEach(item => {
-                if (cart[item.id]) total += item.price * cart[item.id];
-            });
-        });
-        document.getElementById('grand-total').innerText = total;
-    }
-
-    function saveOrder() {
-        let selectedItems = [];
-        let total = 0;
-
-        menuData.forEach(cat => {
-            cat.items.forEach(item => {
-                if (cart[item.id] > 0) {
-                    const itemTotal = item.price * cart[item.id];
-                    selectedItems.push({ name: item.name, qty: cart[item.id], total: itemTotal });
-                    total += itemTotal;
-                }
-            });
-        });
-
-        if (selectedItems.length === 0) {
-            alert("رجاءً اختر وجبة واحدة على الأقل قبل حفظ الطلب!");
-            return;
-        }
-
-        const waiterId = document.getElementById('waiter-select').value;
-        const tableNum = document.getElementById('table-select').value;
-
-        const newOrder = {
-            id: Date.now(),
-            waiterName: waitersData[waiterId].name,
-            tableNum: tableNum,
-            items: selectedItems,
-            total: total,
-            status: 'pending',
-            createdAt: Date.now(),
-            timeStr: new Date().toLocaleTimeString('ar-MA', { hour: '2-digit', minute: '2-digit' })
-        };
-
-        ordersHistory.unshift(newOrder);
-        persistOrders();
-
-        cart = {};
-        renderMenu();
-        updateTotal();
-        updateBadge();
-        checkTimerAlerts();
-    }
-
-    function checkTimerAlerts() {
-        const now = Date.now();
-        let delayedOrdersCount = 0;
-
-        ordersHistory.forEach(order => {
-            if (order.status === 'pending') {
-                const elapsedMins = Math.floor((now - order.createdAt) / 60000);
-                if (elapsedMins >= 5) {
-                    delayedOrdersCount++;
-                }
-            }
-        });
-
-        const tickerBar = document.getElementById('top-news-ticker');
-        const tickerMsg = document.getElementById('ticker-msg');
-
-        if (delayedOrdersCount > 0) {
-            tickerMsg.innerText = `تنبيه هام: توجد (${delayedOrdersCount}) طلبية متأخرة لأكثر من 5 دقائق ولم تُلبَّ بعد!`;
-            tickerBar.classList.remove('hidden');
-        } else {
-            tickerBar.classList.add('hidden');
-        }
-
-        if (!document.getElementById('view-orders').classList.contains('hidden')) {
-            renderOrders();
-        }
-        updateBadge();
-    }
-
-    function goDelayedOrders() {
-        switchTab('orders');
-        filterOrders('delayed');
-    }
-
-    setInterval(checkTimerAlerts, 5000);
-
-    function renderOrders() {
-        const container = document.getElementById('orders-container');
-        container.innerHTML = '';
-        const now = Date.now();
-
-        let filtered = ordersHistory.filter(o => {
-            const elapsedMins = Math.floor((now - o.createdAt) / 60000);
-            const isDelayed = elapsedMins >= 5 && o.status === 'pending';
-
-            if (currentFilter === 'pending') return o.status === 'pending' && !isDelayed;
-            if (currentFilter === 'delayed') return isDelayed;
-            if (currentFilter === 'served') return o.status === 'served';
-            return true;
-        });
-
-        if (filtered.length === 0) {
-            container.innerHTML = '<p style="text-align:center; color:#94a3b8; padding:20px 0;">لا توجد طلبيات مسجلة في هذا القسم.</p>';
-            return;
-        }
-
-        filtered.forEach(order => {
-            const isServed = order.status === 'served';
-            const elapsedMins = Math.floor((now - order.createdAt) / 60000);
-            const isDelayed = elapsedMins >= 5 && !isServed;
-
-            const card = document.createElement('div');
-            card.className = `order-card ${isServed ? 'served' : (isDelayed ? 'delayed' : '')}`;
-
-            let itemsHtml = order.items.map(i => `<li>${i.name} × <strong>${i.qty}</strong> (${i.total} DHS)</li>`).join('');
-
             card.innerHTML = `
-                <div class="order-header">
-                    <span class="order-title">القاعة / الطاولة: ${order.tableNum}</span>
-                    <span class="status-badge ${isServed ? 'status-served' : (isDelayed ? 'status-delayed' : 'status-pending')}">
-                        ${isServed ? 'تم التلبية ✅' : (isDelayed ? 'تأخير +5 دقائق ⚠️' : 'قيد الانتظار ⏳')}
-                    </span>
-                </div>
-                <div class="order-details">
-                    النادل المسؤول: <strong>${order.waiterName}</strong> | وقت الطلب: ${order.timeStr}
-                    <div class="time-timer ${isDelayed ? 'danger' : ''}">
-                        ${isServed ? 'تم التسليم' : `الانتظار الحالي: ${elapsedMins} دقيقة/دقائق`}
-                    </div>
-                </div>
-                <ul class="order-items-list">${itemsHtml}</ul>
-                <div class="order-footer">
-                    <div>المجموع: <strong>${order.total} DHS</strong></div>
-                    <div style="display:flex; gap:6px;">
-                        ${isDelayed ? `<button class="btn-apology" onclick="openApologyModal(${order.id})">⚠️ إعتذار / سبب التأخير</button>` : ''}
-                        <button class="btn-toggle-status ${isServed ? 'undo' : 'serve'}" onclick="toggleStatus(${order.id})">
-                            ${isServed ? 'إعادة لقيد الانتظار' : 'تأكيد التلبية ✅'}
-                        </button>
-                    </div>
+                <button class="category-btn" onclick="document.getElementById('cat-${index}').classList.toggle('open')">
+                    <span>${cat.category}</span> <span>▼</span>
+                </button>
+                <div class="category-content" id="cat-${index}">
+                    ${cat.items.map(item => `
+                        <div class="menu-item">
+                            <div class="item-info">
+                                <strong style="display:block;">${item.name}</strong>
+                                <span style="font-size:0.8rem; color:#666;">${item.price} DHS</span>
+                            </div>
+                            <div class="quantity-controls">
+                                <button class="btn-qty" onclick="changeCustQty(${item.id}, -1)">-</button>
+                                <span id="qty-${item.id}">0</span>
+                                <button class="btn-qty" onclick="changeCustQty(${item.id}, 1)">+</button>
+                            </div>
+                        </div>
+                    `).join('')}
                 </div>
             `;
             container.appendChild(card);
         });
     }
 
-    function openApologyModal(orderId) {
-        const order = ordersHistory.find(o => o.id === orderId);
-        if (order) {
-            document.getElementById('apology-modal-info').innerText = `الطلب الخاص بـ (${order.waiterName}) - القاعة/الطاولة رقم ${order.tableNum}`;
-            document.getElementById('apology-modal').style.display = 'flex';
+    function changeCustQty(id, delta) {
+        if (!activeCustomerCart[id]) activeCustomerCart[id] = 0;
+        activeCustomerCart[id] += delta;
+        if (activeCustomerCart[id] <= 0) delete activeCustomerCart[id];
+
+        document.getElementById(`qty-${id}`).innerText = activeCustomerCart[id] || 0;
+        
+        let grandTotal = 0;
+        menuData.forEach(c => c.items.forEach(i => {
+            if (activeCustomerCart[i.id]) grandTotal += i.price * activeCustomerCart[i.id];
+        }));
+        document.getElementById('grand-total').innerText = grandTotal;
+    }
+
+    function submitCustomerOrder() {
+        let items = [];
+        let total = 0;
+        menuData.forEach(c => c.items.forEach(i => {
+            if (activeCustomerCart[i.id]) {
+                items.push({ name: i.name, qty: activeCustomerCart[i.id], price: i.price });
+                total += i.price * activeCustomerCart[i.id];
+            }
+        }));
+
+        if (items.length === 0) {
+            alert("اختر وجبة واحدة على الأقل قبل الإرسال!");
+            return;
+        }
+
+        const { zone, table } = activeCustomerLocation;
+        markTableState(zone, table, 'NEW_ORDER', { items, total, time: new Date().toLocaleTimeString('ar-MA', {hour:'2-digit', minute:'2-digit'}) }, true);
+        
+        alert("تم إرسال طلبك للنادل بنجاح! 🎉");
+        activeCustomerCart = {};
+        renderCustomerMenu();
+        document.getElementById('grand-total').innerText = 0;
+    }
+
+    function sendQuickCustomerRequest(type) {
+        const { zone, table } = activeCustomerLocation;
+        let note = type === 'bill' ? 'طلب الحساب 💳' : (type === 'water' ? 'طلب مناديل/ماء 🧻' : 'استدعاء النادل 🔔');
+        let stateCode = type === 'bill' ? 'BILL' : 'NEW_ORDER';
+
+        markTableState(zone, table, stateCode, { quickRequest: note, time: new Date().toLocaleTimeString('ar-MA', {hour:'2-digit', minute:'2-digit'}) }, true);
+        alert(`تم إرسال تنبيه: (${note}) للنادل!`);
+    }
+
+    function updateCustomerLiveStatus() {
+        const { zone, table } = activeCustomerLocation;
+        const key = `${zone}-${table}`;
+        const tableData = tablesStateDB[key];
+
+        const statusBox = document.getElementById('cust-live-status-box');
+        const statusText = document.getElementById('cust-live-status-text');
+
+        if (tableData && tableData.status !== 'EMPTY' && tableData.status !== 'BROWSING') {
+            statusBox.classList.remove('hidden');
+            if (tableData.status === 'NEW_ORDER') statusText.innerText = 'تم إرسال الطلب للنادل 📥';
+            else if (tableData.status === 'PREPARING') statusText.innerText = 'الطلب قيد التحضير بعناية ☕';
+            else if (tableData.status === 'SERVED') statusText.innerText = 'تم تقديم الطلب! بالهناء والشفاء 😊';
+            else if (tableData.status === 'BILL') statusText.innerText = 'جاري إحضار الحساب لكم 💳';
+        } else {
+            statusBox.classList.add('hidden');
         }
     }
 
-    function closeApologyModal() {
-        document.getElementById('apology-modal').style.display = 'none';
-    }
+    // --- منطق النادل والحسابات ---
+    function loginWaiter() {
+        const user = document.getElementById('auth-username').value.trim();
+        const pass = document.getElementById('auth-password').value.trim();
 
-    function toggleStatus(orderId) {
-        const order = ordersHistory.find(o => o.id === orderId);
-        if (order) {
-            order.status = order.status === 'pending' ? 'served' : 'pending';
-            persistOrders();
-            renderOrders();
-            checkTimerAlerts();
+        const found = waitersDB.find(w => w.name === user && w.pass === pass);
+        if (found) {
+            currentWaiter = found;
+            localStorage.setItem('venezia_active_waiter', JSON.stringify(currentWaiter));
+            initApp();
+        } else {
+            alert("اسم النادل أو كلمة المرور غير صحيحة!");
         }
     }
 
-    function clearAllOrders() {
-        if (confirm("هل أنت تأكد من إفراغ سجل الطلبيات بالكامل؟")) {
-            ordersHistory = [];
-            persistOrders();
-            renderOrders();
-            updateBadge();
-            checkTimerAlerts();
+    function registerWaiter() {
+        const name = document.getElementById('reg-name').value.trim();
+        const pass = document.getElementById('reg-pass').value.trim();
+
+        if (!name || !pass) return alert("يرجى ملء جميع الحقول!");
+        waitersDB.push({ name, pass });
+        localStorage.setItem('venezia_waiters_db', JSON.stringify(waitersDB));
+        
+        currentWaiter = { name, pass };
+        localStorage.setItem('venezia_active_waiter', JSON.stringify(currentWaiter));
+        initApp();
+    }
+
+    function logoutWaiter() {
+        localStorage.removeItem('venezia_active_waiter');
+        currentWaiter = null;
+        initApp();
+    }
+
+    function renderShiftSelectionGrid() {
+        const terrGrid = document.getElementById('shift-terrasses-grid');
+        const sallGrid = document.getElementById('shift-salles-grid');
+        terrGrid.innerHTML = ''; sallGrid.innerHTML = '';
+
+        VENUE_CONFIG.terrasses.forEach(t => {
+            const card = document.createElement('div');
+            card.className = `zone-checkbox-card ${selectedShiftZones.includes(t.id) ? 'selected' : ''}`;
+            card.innerText = t.name;
+            card.onclick = () => toggleZoneShift(t.id, card);
+            terrGrid.appendChild(card);
+        });
+
+        VENUE_CONFIG.salles.forEach(s => {
+            const card = document.createElement('div');
+            card.className = `zone-checkbox-card ${selectedShiftZones.includes(s.id) ? 'selected' : ''}`;
+            card.innerText = s.name;
+            card.onclick = () => toggleZoneShift(s.id, card);
+            sallGrid.appendChild(card);
+        });
+    }
+
+    function toggleZoneShift(zoneId, el) {
+        if (selectedShiftZones.includes(zoneId)) {
+            selectedShiftZones = selectedShiftZones.filter(z => z !== zoneId);
+            el.classList.remove('selected');
+        } else {
+            selectedShiftZones.push(zoneId);
+            el.classList.add('selected');
         }
     }
 
-    function updateBadge() {
-        const pendingCount = ordersHistory.filter(o => o.status === 'pending').length;
-        document.getElementById('pending-count').innerText = pendingCount;
+    function startShift() {
+        if (selectedShiftZones.length === 0) return alert("يرجى اختيار قاعة أو تراس واحد على الأقل للوردية!");
+        localStorage.setItem('venezia_shift_zones', JSON.stringify(selectedShiftZones));
+        initApp();
     }
 
-    function filterOrders(status) {
-        currentFilter = status;
-        renderOrders();
+    function openShiftSetup() {
+        showView('view-waiter-shift');
+        renderShiftSelectionGrid();
     }
 
-    function switchTab(tab) {
-        if (tab === 'menu') {
-            document.getElementById('view-menu').classList.remove('hidden');
-            document.getElementById('view-orders').classList.add('hidden');
-            document.getElementById('cart-bar').classList.remove('hidden');
-            document.getElementById('tab-menu-btn').classList.add('active');
+    function setupDashboardView() {
+        document.getElementById('dash-waiter-name').innerText = currentWaiter.name;
+        renderFloorMap();
+    }
+
+    function renderFloorMap() {
+        const container = document.getElementById('floor-map-container');
+        container.innerHTML = '';
+
+        const allZones = [...VENUE_CONFIG.terrasses, ...VENUE_CONFIG.salles];
+        const myZones = allZones.filter(z => selectedShiftZones.includes(z.id));
+
+        myZones.forEach(zone => {
+            const block = document.createElement('div');
+            block.className = 'floor-zone-block';
+            block.innerHTML = `<div class="floor-zone-title"><span>${zone.name}</span></div>`;
+
+            const grid = document.createElement('div');
+            grid.className = 'tables-grid';
+
+            zone.tables.forEach(tableId => {
+                const key = `${zone.id}-${tableId}`;
+                const data = tablesStateDB[key] || { status: 'EMPTY' };
+
+                const tile = document.createElement('div');
+                tile.className = `table-tile state-${data.status.toLowerCase()}`;
+                
+                let label = 'فارغة';
+                if (data.status === 'BROWSING') label = 'يتصفح 📱';
+                else if (data.status === 'NEW_ORDER') label = 'طلب جديد 🚨';
+                else if (data.status === 'PREPARING') label = 'تحضير ☕';
+                else if (data.status === 'SERVED') label = 'مقدم ✅';
+                else if (data.status === 'BILL') label = 'حساب 💳';
+
+                tile.innerHTML = `
+                    <div class="num">${tableId}</div>
+                    <span class="badge">${label}</span>
+                `;
+
+                tile.onclick = () => openTableModal(key, zone.name, tableId, data);
+                grid.appendChild(tile);
+            });
+
+            block.appendChild(grid);
+            container.appendChild(block);
+        });
+
+        // تحديث البادج
+        const newCount = Object.keys(tablesStateDB).filter(k => selectedShiftZones.some(z => k.startsWith(z)) && tablesStateDB[k].status === 'NEW_ORDER').length;
+        document.getElementById('pending-badge').innerText = newCount;
+    }
+
+    function openTableModal(key, zoneName, tableId, data) {
+        activeModalTableKey = key;
+        document.getElementById('modal-table-title').innerText = `${zoneName} - الطاولة ${tableId}`;
+        
+        const body = document.getElementById('modal-table-body');
+        if (data.status === 'EMPTY' || !data.order) {
+            body.innerHTML = '<p style="color:#666;">الطاولة فارغة حالياً ولا يوجد طلبات مسجلة.</p>';
+        } else if (data.order.quickRequest) {
+            body.innerHTML = `<div style="background:#fff3cd; padding:10px; border-radius:8px; font-weight:bold;">تنبيه سريع: ${data.order.quickRequest}</div>`;
+        } else {
+            let itemsHtml = data.order.items.map(i => `<li>${i.name} × <strong>${i.qty}</strong> (${i.price * i.qty} DHS)</li>`).join('');
+            body.innerHTML = `
+                <p style="font-size:0.85rem; margin-bottom:6px;">الوقت: ${data.order.time}</p>
+                <ul style="padding-right:20px; font-size:0.9rem;">${itemsHtml}</ul>
+                <strong>المجموع: ${data.order.total} DHS</strong>
+            `;
+        }
+
+        document.getElementById('table-modal').style.display = 'flex';
+    }
+
+    function updateModalOrderState(newStatus) {
+        if (!activeModalTableKey) return;
+        const [zone, table] = activeModalTableKey.split('-');
+        const existingData = tablesStateDB[activeModalTableKey] || {};
+        markTableState(zone, table, newStatus, existingData.order, true);
+        closeModal();
+    }
+
+    function clearTableState() {
+        if (!activeModalTableKey) return;
+        const [zone, table] = activeModalTableKey.split('-');
+        markTableState(zone, table, 'EMPTY', null, true);
+        closeModal();
+    }
+
+    function closeModal() { document.getElementById('table-modal').style.display = 'none'; }
+
+    function markTableState(zone, table, status, orderData, notify) {
+        const key = `${zone}-${table}`;
+        tablesStateDB[key] = { status, order: orderData, updatedAt: Date.now() };
+
+        if (status === 'NEW_ORDER' || status === 'BILL') {
+            if (selectedShiftZones.includes(zone)) triggerAudioAlert();
+        }
+
+        if (notify) notifyOtherTabs();
+        else refreshViews();
+    }
+
+    function refreshViews() {
+        if (!document.getElementById('view-customer').classList.contains('hidden')) {
+            updateCustomerLiveStatus();
+        }
+        if (!document.getElementById('view-waiter-dashboard').classList.contains('hidden')) {
+            renderFloorMap();
+        }
+    }
+
+    function switchWaiterTab(tab) {
+        if (tab === 'floor') {
+            document.getElementById('waiter-tab-floor').classList.remove('hidden');
+            document.getElementById('waiter-tab-memory').classList.add('hidden');
+            document.getElementById('tab-floor-btn').classList.add('active');
             document.getElementById('tab-orders-btn').classList.remove('active');
         } else {
-            document.getElementById('view-menu').classList.add('hidden');
-            document.getElementById('view-orders').classList.remove('hidden');
-            document.getElementById('cart-bar').classList.add('hidden');
-            document.getElementById('tab-menu-btn').classList.remove('active');
+            document.getElementById('waiter-tab-floor').classList.add('hidden');
+            document.getElementById('waiter-tab-memory').classList.remove('hidden');
+            document.getElementById('tab-floor-btn').classList.remove('active');
             document.getElementById('tab-orders-btn').classList.add('active');
-            renderOrders();
+            renderMemoryOrders();
         }
     }
 
-    // دالتا فتح وإغلاق نافذة QR Code
+    function renderMemoryOrders() {
+        const container = document.getElementById('memory-orders-container');
+        container.innerHTML = '';
+
+        const activeKeys = Object.keys(tablesStateDB).filter(k => tablesStateDB[k].status !== 'EMPTY');
+        if (activeKeys.length === 0) {
+            container.innerHTML = '<p style="text-align:center; color:#888;">لا توجد طلبيات نشطة في الذاكرة.</p>';
+            return;
+        }
+
+        activeKeys.forEach(k => {
+            const data = tablesStateDB[k];
+            const div = document.createElement('div');
+            div.style.cssText = 'background:white; padding:12px; border-radius:10px; margin-bottom:8px; border-right:4px solid var(--primary-color);';
+            div.innerHTML = `
+                <strong>المكان: ${k}</strong> | الحالة: ${data.status}
+                <div>${data.order && data.order.total ? 'المجموع: ' + data.order.total + ' DHS' : ''}</div>
+            `;
+            container.appendChild(div);
+        });
+    }
+
+    function getZoneName(id) {
+        const all = [...VENUE_CONFIG.terrasses, ...VENUE_CONFIG.salles];
+        const match = all.find(z => z.id === id);
+        return match ? match.name : id;
+    }
+
+    // --- نافذة QR ---
     function openQRModal() {
-      document.getElementById('qrModal').style.display = 'flex';
-    }
-    function closeQRModal(e) {
-      if (e.target.id === 'qrModal') {
-        document.getElementById('qrModal').style.display = 'none';
-      }
-    }
-    function closeQRModalDirect() {
-      document.getElementById('qrModal').style.display = 'none';
+        const select = document.getElementById('qr-select-zone');
+        select.innerHTML = '';
+        [...VENUE_CONFIG.terrasses, ...VENUE_CONFIG.salles].forEach(z => {
+            select.innerHTML += `<option value="${z.id}">${z.name}</option>`;
+        });
+        updateQRImage();
+        document.getElementById('qrModal').style.display = 'flex';
     }
 
-    // التهيئة الابتدائية عند فتح التطبيق
-    onWaiterChange();
-    renderMenu();
-    updateBadge();
-    checkTimerAlerts();
+    function updateQRImage() {
+        const z = document.getElementById('qr-select-zone').value;
+        const t = document.getElementById('qr-select-table').value;
+        const link = `https://genyons.github.io/venezia-app/?zone=${z}&table=${t}`;
+        
+        document.getElementById('qr-code-img').src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(link)}`;
+        document.getElementById('qr-link-text').innerText = link;
+    }
+
+    function closeQRModal(e) { if(e.target.id === 'qrModal') closeQRModalDirect(); }
+    function closeQRModalDirect() { document.getElementById('qrModal').style.display = 'none'; }
+
+    // تشغيل التطبيق
+    window.onload = initApp;
 </script>
-
 </body>
 </html>
