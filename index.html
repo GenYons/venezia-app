@@ -182,7 +182,6 @@
             border-color: var(--primary-color);
         }
 
-        /* خريطة الطاولات التفاعلية */
         .floor-zone-block {
             background: white;
             border-radius: 14px;
@@ -244,7 +243,6 @@
             100% { transform: scale(1.03); }
         }
 
-        /* واجهة الزبون */
         .customer-welcome-card {
             background: linear-gradient(135deg, #fffdfa 0%, #fff6e5 100%);
             border: 1.5px solid var(--accent-gold);
@@ -299,7 +297,7 @@
         <div class="brand-subtitle">Café & Gelateria</div>
     </header>
 
-    <!-- 1. شاشة الزبون (عند فتح الرابط مع رمز المكان) -->
+    <!-- 1. شاشة الزبون -->
     <div id="view-customer" class="hidden">
         <div class="customer-welcome-card">
             <h3 style="margin:0 0 4px 0; color:var(--primary-color);">مرحباً بك في Venezia Ice ✨</h3>
@@ -339,9 +337,9 @@
                 <input type="password" id="auth-password" placeholder="••••••••">
             </div>
             <button class="btn-action" style="width:100%; margin-top:10px;" onclick="loginWaiter()">تسجيل الدخول</button>
-            
+
             <hr style="margin: 20px 0; border:0; border-top:1px solid #eee;">
-            
+
             <h4 style="margin:0 0 10px 0; text-align:center;">ليس لديك حساب؟ إنشاء حساب جديد</h4>
             <div class="form-group">
                 <label>الاسم الكامل:</label>
@@ -355,12 +353,12 @@
         </div>
     </div>
 
-    <!-- 3. شاشة إعداد الوردية للنادل (تحديد القاعات والتراسات) -->
+    <!-- 3. شاشة إعداد الوردية للنادل -->
     <div id="view-waiter-shift" class="hidden">
         <div class="shift-card">
             <h3 style="margin-top:0; color:var(--primary-color);">تحديد وردية العمل والنطاق 📍</h3>
             <p style="font-size:0.85rem; color:#666;">اختر التراسات والقاعات التي تتولى مسؤوليتها خلال هذه الوردية لتلقي إشعاراتها وطاولاتها فقط:</p>
-            
+
             <strong style="color:var(--primary-color);">☀️ الأجزاء الخارجية (Terrasses):</strong>
             <div class="zones-grid" id="shift-terrasses-grid"></div>
 
@@ -401,7 +399,7 @@
             <div id="floor-map-container"></div>
         </div>
 
-        <!-- تبويب ذاكرة الطلبات القديم للمتابعة والتأخير -->
+        <!-- تبويب ذاكرة الطلبات -->
         <div id="waiter-tab-memory" class="hidden">
             <div id="memory-orders-container"></div>
         </div>
@@ -445,8 +443,27 @@
   </div>
 </div>
 
+<!-- مكتبات Firebase 8.10.1 -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
 <script>
-    // 1. هيكلية المكان (Terrasses 1..4 & Salles 1..5)
+    // 1. تهيئة Firebase Realtime Database
+    const firebaseConfig = {
+      apiKey: "AIzaSyAZnknuB3vhQt8kLXc-Owt_MD",
+      authDomain: "venezia-app-5cf37.firebaseapp.com",
+      databaseURL: "https://venezia-app-5cf37-default-rtdb.firebaseio.com",
+      projectId: "venezia-app-5cf37",
+      storageBucket: "venezia-app-5cf37.appspot.com",
+      messagingSenderId: "713881677650",
+      appId: "1:713881677650:web:8c646ae0b942"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+    const tablesRef = database.ref('tables');
+
+    // 2. هيكلية المكان
     const VENUE_CONFIG = {
         terrasses: [
             { id: 'Terras1', name: 'تراس 1 (خارجي)', tables: ['T1', 'T2', 'T3', 'T4'] },
@@ -493,7 +510,6 @@
         }
     ];
 
-    // قاعدة البيانات المحلية والمحاكاة المباشرة
     let waitersDB = JSON.parse(localStorage.getItem('venezia_waiters_db')) || [
         { name: "يونس", pass: "1234" },
         { name: "النادل 2", pass: "1234" }
@@ -501,30 +517,19 @@
 
     let currentWaiter = JSON.parse(localStorage.getItem('venezia_active_waiter')) || null;
     let selectedShiftZones = JSON.parse(localStorage.getItem('venezia_shift_zones')) || [];
-    let tablesStateDB = JSON.parse(localStorage.getItem('venezia_tables_state')) || {}; // Key: Zone-Table
+    let tablesStateDB = {};
 
     let activeCustomerCart = {};
     let activeCustomerLocation = { zone: null, table: null };
     let activeModalTableKey = null;
 
-    // قناة القراءة والمزامنة المباشرة
-    const channel = new BroadcastChannel('venezia_channel');
-    channel.onmessage = (event) => {
-        refreshDataFromStorage();
-    };
-
-    function notifyOtherTabs() {
-        localStorage.setItem('venezia_tables_state', JSON.stringify(tablesStateDB));
-        channel.postMessage('sync');
+    // الاستماع المتزامن اللحظي لقاعدة بيانات Firebase
+    tablesRef.on('value', (snapshot) => {
+        const val = snapshot.val();
+        tablesStateDB = val || {};
         refreshViews();
-    }
+    });
 
-    function refreshDataFromStorage() {
-        tablesStateDB = JSON.parse(localStorage.getItem('venezia_tables_state')) || {};
-        refreshViews();
-    }
-
-    // صوت الإشعار التفاعلي للنادل
     function triggerAudioAlert() {
         try {
             const ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -537,20 +542,17 @@
         } catch(e) {}
     }
 
-    // تهيئة الصفحة وتحديد الواجهة المُراد عرضها
     function initApp() {
         const urlParams = new URLSearchParams(window.location.search);
         const zoneParam = urlParams.get('zone');
         const tableParam = urlParams.get('table');
 
         if (zoneParam && tableParam) {
-            // واجهة الزبون
             activeCustomerLocation = { zone: zoneParam, table: tableParam };
             showView('view-customer');
             setupCustomerView();
-            markTableState(zoneParam, tableParam, 'BROWSING', null, false);
+            markTableState(zoneParam, tableParam, 'BROWSING', null);
         } else {
-            // واجهة النادل
             if (!currentWaiter) {
                 showView('view-waiter-auth');
             } else if (selectedShiftZones.length === 0) {
@@ -574,8 +576,7 @@
     function setupCustomerView() {
         const { zone, table } = activeCustomerLocation;
         document.getElementById('cust-location-text').innerText = `${getZoneName(zone)} - الطاولة ${table}`;
-        
-        // البحث عن النادل المسؤول عن هذه القاعة
+
         const assignedWaiter = currentWaiter && selectedShiftZones.includes(zone) ? currentWaiter.name : "طاقم الخدمة";
         document.getElementById('cust-waiter-text').innerText = `النادل المسؤول: ${assignedWaiter}`;
 
@@ -620,7 +621,7 @@
         if (activeCustomerCart[id] <= 0) delete activeCustomerCart[id];
 
         document.getElementById(`qty-${id}`).innerText = activeCustomerCart[id] || 0;
-        
+
         let grandTotal = 0;
         menuData.forEach(c => c.items.forEach(i => {
             if (activeCustomerCart[i.id]) grandTotal += i.price * activeCustomerCart[i.id];
@@ -644,8 +645,8 @@
         }
 
         const { zone, table } = activeCustomerLocation;
-        markTableState(zone, table, 'NEW_ORDER', { items, total, time: new Date().toLocaleTimeString('ar-MA', {hour:'2-digit', minute:'2-digit'}) }, true);
-        
+        markTableState(zone, table, 'NEW_ORDER', { items, total, time: new Date().toLocaleTimeString('ar-MA', {hour:'2-digit', minute:'2-digit'}) });
+
         alert("تم إرسال طلبك للنادل بنجاح! 🎉");
         activeCustomerCart = {};
         renderCustomerMenu();
@@ -657,7 +658,7 @@
         let note = type === 'bill' ? 'طلب الحساب 💳' : (type === 'water' ? 'طلب مناديل/ماء 🧻' : 'استدعاء النادل 🔔');
         let stateCode = type === 'bill' ? 'BILL' : 'NEW_ORDER';
 
-        markTableState(zone, table, stateCode, { quickRequest: note, time: new Date().toLocaleTimeString('ar-MA', {hour:'2-digit', minute:'2-digit'}) }, true);
+        markTableState(zone, table, stateCode, { quickRequest: note, time: new Date().toLocaleTimeString('ar-MA', {hour:'2-digit', minute:'2-digit'}) });
         alert(`تم إرسال تنبيه: (${note}) للنادل!`);
     }
 
@@ -680,7 +681,7 @@
         }
     }
 
-    // --- منطق النادل والحسابات ---
+    // --- منطق النادل ---
     function loginWaiter() {
         const user = document.getElementById('auth-username').value.trim();
         const pass = document.getElementById('auth-password').value.trim();
@@ -702,7 +703,7 @@
         if (!name || !pass) return alert("يرجى ملء جميع الحقول!");
         waitersDB.push({ name, pass });
         localStorage.setItem('venezia_waiters_db', JSON.stringify(waitersDB));
-        
+
         currentWaiter = { name, pass };
         localStorage.setItem('venezia_active_waiter', JSON.stringify(currentWaiter));
         initApp();
@@ -783,7 +784,7 @@
 
                 const tile = document.createElement('div');
                 tile.className = `table-tile state-${data.status.toLowerCase()}`;
-                
+
                 let label = 'فارغة';
                 if (data.status === 'BROWSING') label = 'يتصفح 📱';
                 else if (data.status === 'NEW_ORDER') label = 'طلب جديد 🚨';
@@ -804,7 +805,6 @@
             container.appendChild(block);
         });
 
-        // تحديث البادج
         const newCount = Object.keys(tablesStateDB).filter(k => selectedShiftZones.some(z => k.startsWith(z)) && tablesStateDB[k].status === 'NEW_ORDER').length;
         document.getElementById('pending-badge').innerText = newCount;
     }
@@ -812,18 +812,18 @@
     function openTableModal(key, zoneName, tableId, data) {
         activeModalTableKey = key;
         document.getElementById('modal-table-title').innerText = `${zoneName} - الطاولة ${tableId}`;
-        
+
         const body = document.getElementById('modal-table-body');
         if (data.status === 'EMPTY' || !data.order) {
             body.innerHTML = '<p style="color:#666;">الطاولة فارغة حالياً ولا يوجد طلبات مسجلة.</p>';
         } else if (data.order.quickRequest) {
             body.innerHTML = `<div style="background:#fff3cd; padding:10px; border-radius:8px; font-weight:bold;">تنبيه سريع: ${data.order.quickRequest}</div>`;
         } else {
-            let itemsHtml = data.order.items.map(i => `<li>${i.name} × <strong>${i.qty}</strong> (${i.price * i.qty} DHS)</li>`).join('');
+            let itemsHtml = (data.order.items || []).map(i => `<li>${i.name} × <strong>${i.qty}</strong> (${i.price * i.qty} DHS)</li>`).join('');
             body.innerHTML = `
                 <p style="font-size:0.85rem; margin-bottom:6px;">الوقت: ${data.order.time}</p>
                 <ul style="padding-right:20px; font-size:0.9rem;">${itemsHtml}</ul>
-                <strong>المجموع: ${data.order.total} DHS</strong>
+                <strong>المجموع: ${data.order.total || 0} DHS</strong>
             `;
         }
 
@@ -834,29 +834,33 @@
         if (!activeModalTableKey) return;
         const [zone, table] = activeModalTableKey.split('-');
         const existingData = tablesStateDB[activeModalTableKey] || {};
-        markTableState(zone, table, newStatus, existingData.order, true);
+        markTableState(zone, table, newStatus, existingData.order || null);
         closeModal();
     }
 
     function clearTableState() {
         if (!activeModalTableKey) return;
         const [zone, table] = activeModalTableKey.split('-');
-        markTableState(zone, table, 'EMPTY', null, true);
+        markTableState(zone, table, 'EMPTY', null);
         closeModal();
     }
 
     function closeModal() { document.getElementById('table-modal').style.display = 'none'; }
 
-    function markTableState(zone, table, status, orderData, notify) {
+    // حفظ وتحديث الحالة مباشرة في Firebase
+    function markTableState(zone, table, status, orderData) {
         const key = `${zone}-${table}`;
-        tablesStateDB[key] = { status, order: orderData, updatedAt: Date.now() };
+        const payload = {
+            status: status,
+            order: orderData || null,
+            updatedAt: Date.now()
+        };
 
         if (status === 'NEW_ORDER' || status === 'BILL') {
             if (selectedShiftZones.includes(zone)) triggerAudioAlert();
         }
 
-        if (notify) notifyOtherTabs();
-        else refreshViews();
+        tablesRef.child(key).set(payload);
     }
 
     function refreshViews() {
@@ -926,7 +930,7 @@
         const z = document.getElementById('qr-select-zone').value;
         const t = document.getElementById('qr-select-table').value;
         const link = `https://genyons.github.io/venezia-app/?zone=${z}&table=${t}`;
-        
+
         document.getElementById('qr-code-img').src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(link)}`;
         document.getElementById('qr-link-text').innerText = link;
     }
@@ -934,7 +938,7 @@
     function closeQRModal(e) { if(e.target.id === 'qrModal') closeQRModalDirect(); }
     function closeQRModalDirect() { document.getElementById('qrModal').style.display = 'none'; }
 
-    // تشغيل التطبيق
+    // تشغيل التطبيق عند التحميل
     window.onload = initApp;
 </script>
 </body>
